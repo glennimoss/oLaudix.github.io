@@ -54,8 +54,8 @@ function GetHeroBaseCost (purchaseCost, heroLevel) {
 
 function accumulateStatBonus (bonusType) {
   var num = 0.0;
-  for (var y = 0; y < heroList.length; y++) {
-    num += accumulateHeroStatBonus(HeroInfo[heroList[y]], bonusType);
+  for (var y = 0; y < HeroInfo.length; y++) {
+    num += accumulateHeroStatBonus(HeroInfo[y], bonusType);
   }
   return num;
 }
@@ -89,7 +89,7 @@ function GetStatBonusAllDamage () {
 
   /*
   for (var y = 0; y < 30; y++) {
-    var hero = HeroInfo[heroList[y]];
+    var hero = HeroInfo[y];
     for (var x = 0; x < 7; x++) {
       if (hero.skills[x].isActive && hero.skills[x].bonusType=="AllDamage") {
         StatBonusAllDamage = StatBonusAllDamage + hero.skills[x].magnitude;
@@ -105,7 +105,7 @@ function GetStatBonusAllGold () {
   StatBonusGoldAll += accumulateStatBonus("GoldAll");
   /*
   for (var y = 0; y < 30; y++) {
-    var hero = HeroInfo[heroList[y]];
+    var hero = HeroInfo[y];
     for (var x = 0; x < 7; x++) {
       if (hero.skills[x].isActive && hero.skills[x].bonusType == "GoldAll") {
         StatBonusGoldAll = StatBonusGoldAll + hero.skills[x].magnitude;
@@ -119,7 +119,7 @@ function GetStatBonusTapDamageFromDPS () {
   TapDamageFromDPS = accumulateStatBonus("TapDamageFromDPS");
   /*
   for (var y = 0; y < 30; y++) {
-    var hero = HeroInfo[heroList[y]];
+    var hero = HeroInfo[y];
     for (var x = 0; x < 7; x++) {
       if (hero.skills[x].isActive && hero.skills[x].bonusType=="TapDamageFromDPS") {
         TapDamageFromDPS = TapDamageFromDPS + hero.skills[x].magnitude;
@@ -134,7 +134,7 @@ function GetStatBonusCritChance() {
   CritChance += accumulateStatBonus("CritChance");
   /*
   for (var y = 0; y < 30; y++) {
-    var hero = HeroInfo[heroList[y]];
+    var hero = HeroInfo[y];
     for (var x = 0; x < 7; x++) {
       if (hero.skills[x].isActive && hero.skills[x].bonusType=="CritChance") {
         CritChance = CritChance + hero.skills[x].magnitude;
@@ -148,7 +148,7 @@ function GetStatBonusCritDamagePassive() {
   CritDamagePassive = 10.0 + 10 * accumulateStatBonus("CritDamagePassive");
   /*
   for (var y = 0; y < 30; y++) {
-    var hero = HeroInfo[heroList[y]];
+    var hero = HeroInfo[y];
     for (var x = 0; x < 7; x++) {
       if (hero.skills[x].isActive && hero.skills[x].bonusType=="CritDamagePassive") {
         CritDamagePassive = CritDamagePassive + (hero.skills[x].magnitude*10);
@@ -163,7 +163,7 @@ function GetStatBonusTapDamagePassive() {
   TapDamagePassive = accumulateStatBonus("TapDamagePassive");
   /*
   for (var y = 0; y < 30; y++) {
-    var hero = HeroInfo[heroList[y]];
+    var hero = HeroInfo[y];
     for (var x = 0; x < 7; x++) {
       if (hero.skills[x].isActive && hero.skills[x].bonusType=="TapDamagePassive") {
         TapDamagePassive = TapDamagePassive + hero.skills[x].magnitude;
@@ -179,37 +179,37 @@ function GetEfficiency() {
   var text = "";
   var best = 0;
   //var bestskill = [0,0]
-  var bestskill = HeroInfo[heroList[0]].skills[0];
+  var bestskill = HeroInfo[0].skills[0];
   var test = 0;
   for (var x = 0; x < 10000; x++) {
     //best = 30;
     for (i = 0; i < 30; i++) {
-      if (HeroInfo[heroList[i]].isActive) {
-        var eff = HeroInfo[heroList[i]].efficiency;
-        var beff = HeroInfo[heroList[best]].efficiency;
+      if (HeroInfo[i].isActive) {
+        var eff = HeroInfo[i].efficiency;
+        var beff = HeroInfo[best].efficiency;
         if (eff < beff) {
           //oldbest = best;
           best = i;
         }
-        for (var h = 0; h < 7; h++) {
-          if (!(HeroInfo[heroList[i]].skills[h].isActive)) {
-            var eff = HeroInfo[heroList[i]].skills[h].efficiency;
+        for (var h = 0; h < HeroInfo[i].skills.length; h++) {
+          if (!(HeroInfo[i].skills[h].isActive)) {
+            var eff = HeroInfo[i].skills[h].efficiency;
             var beff = bestskill.efficiency;
             if (eff < beff) {
-              bestskill = HeroInfo[heroList[i]].skills[h];
+              bestskill = HeroInfo[i].skills[h];
             }
           }
         }
       }
-      var eff = HeroInfo[heroList[30]].efficiency;
-      var beff = HeroInfo[heroList[best]].efficiency;
+      var eff = Player.efficiency;
+      var beff = HeroInfo[best].efficiency;
       if (eff < beff) {
         //oldbest = best;
         best = 30;
       }
     }
     //alert(bestskill.name);
-    if (bestskill.efficiency < HeroInfo[heroList[best]].efficiency) {
+    if (bestskill.efficiency < HeroInfo[best].efficiency) {
       if (HeroInfo[bestskill.owner].heroLevel == bestskill.reqLevel) {
         bestskill.isActive = true;
         //HeroInfo[bestskill.owner].heroLevel = bestskill.reqLevel;
@@ -239,14 +239,14 @@ function GetEfficiency() {
         }
       }
     } else {
-      HeroInfo[heroList[best]].heroLevel += 1;
+      HeroInfo[best].heroLevel += 1;
       if (x==0) {
-        output.push({name: HeroInfo[heroList[best]].name, level: HeroInfo[heroList[best]].heroLevel});
+        output.push({name: HeroInfo[best].name, level: HeroInfo[best].heroLevel});
       } else {
-        if (output[output.length-1].name == HeroInfo[heroList[best]].name) {
-          output[output.length-1].level = HeroInfo[heroList[best]].heroLevel;
+        if (output[output.length-1].name == HeroInfo[best].name) {
+          output[output.length-1].level = HeroInfo[best].heroLevel;
         } else {
-          output.push({name: HeroInfo[heroList[best]].name, level: HeroInfo[heroList[best]].heroLevel});
+          output.push({name: HeroInfo[best].name, level: HeroInfo[best].heroLevel});
         }
       }
     }
@@ -286,31 +286,31 @@ function GetUpgradeCostByMultiLevel(iLevelstart, iLevelfinish, purchaseCost) {
 
 function printAll() {
   for (var i = 0; i < 30; i++) {
-    printHeroInfo(HeroInfo[heroList[i]]);
+    printHeroInfo(HeroInfo[i]);
   }
   for (var j = 0; j < ArtifactInfo.length; j++) {
     printArtifactInfo(ArtifactInfo[j]);
   }
-  $("#player0nextUpgradeCost").html(numberFormat(HeroInfo[heroList[30]].nextUpgradeCost));
-  //$("#player0currentDPS").html(numberFormat(HeroInfo[heroList[30]].currentDamage));
-  //$("#player0nextLevelDPSDiff").html("+ "+numberFormat(HeroInfo[heroList[30]].nextLevelDMGDiff));
-  if (HeroInfo[heroList[30]].currentDamage > 1000000) {
-    $("#player0currentDPS").html(HeroInfo[heroList[30]].currentDamage.toExponential(3));
+  $("#player0nextUpgradeCost").html(numberFormat(Player.nextUpgradeCost));
+  //$("#player0currentDPS").html(numberFormat(Player.currentDamage));
+  //$("#player0nextLevelDPSDiff").html("+ "+numberFormat(Player.nextLevelDMGDiff));
+  if (Player.currentDamage > 1000000) {
+    $("#player0currentDPS").html(Player.currentDamage.toExponential(3));
   } else {
-    $("#player0currentDPS").html(Math.floor(HeroInfo[heroList[30]].currentDamage));
+    $("#player0currentDPS").html(Math.floor(Player.currentDamage));
   }
-  if (HeroInfo[heroList[30]].nextLevelDMGDiff > 1000000) {
-    $("#player0nextLevelDPSDiff").html("+ "+HeroInfo[heroList[30]].nextLevelDMGDiff.toExponential(3));
+  if (Player.nextLevelDMGDiff > 1000000) {
+    $("#player0nextLevelDPSDiff").html("+ "+Player.nextLevelDMGDiff.toExponential(3));
   } else {
-    $("#player0nextLevelDPSDiff").html("+ "+Math.floor(HeroInfo[heroList[30]].nextLevelDMGDiff));
+    $("#player0nextLevelDPSDiff").html("+ "+Math.floor(Player.nextLevelDMGDiff));
   }
   $("#playerdata").html(
-            "Total Damage: " + numberFormat(HeroInfo[heroList[30]].trueDamage) + "<br>" +
-            "Next Level Total Damage: " + numberFormat(HeroInfo[heroList[30]].nextLeveltrueDamageDiff) + "<br>" +
-            "Min crit dmg: " + numberFormat(HeroInfo[heroList[30]].MinCritDamage) + "<br>" +
-            "Max crit dmg: " + numberFormat(HeroInfo[heroList[30]].MaxCritDamage) + "<br>" +
-            "Avg crit dmg: " + numberFormat(HeroInfo[heroList[30]].AvgCritDamage) + "<br>" +
-            "Crit dmg: " + numberFormat(HeroInfo[heroList[30]].CritDamage) + "<br>" +
+            "Total Damage: " + numberFormat(Player.trueDamage) + "<br>" +
+            "Next Level Total Damage: " + numberFormat(Player.nextLeveltrueDamageDiff) + "<br>" +
+            "Min crit dmg: " + numberFormat(Player.MinCritDamage) + "<br>" +
+            "Max crit dmg: " + numberFormat(Player.MaxCritDamage) + "<br>" +
+            "Avg crit dmg: " + numberFormat(Player.AvgCritDamage) + "<br>" +
+            "Crit dmg: " + numberFormat(Player.CritDamage) + "<br>" +
             "<br>" +
             "All Damage Bonus: " + StatBonusAllDamage + "<br>" +
             "All Gold Bonus: " + StatBonusGoldAll + "<br>" +
@@ -326,7 +326,7 @@ function printAll() {
 function GetSkills() {
   for (var x = 1; x < 31; x++) {
     for (var y = 1; y < 8; y++) {
-      HeroInfo[heroList[x-1]].skills[y-1].isActive = $("#Hero"+x+"skill"+y).is(":checked");
+      HeroInfo[x-1].skills[y-1].isActive = $("#Hero"+x+"skill"+y).is(":checked");
     }
   }
 }
@@ -334,36 +334,36 @@ function GetSkills() {
 function SetSkillsForTable() {
   for (var x = 1; x < 31; x++) {
     for (var y = 1; y < 8; y++) {
-      if (HeroInfo[heroList[x-1]].skills[y-1].reqLevel < HeroInfo[heroList[x-1]].heroLevel) {
-        HeroInfo[heroList[x-1]].skills[y-1].isActive = true;
-        $("#Hero"+x+"skill"+y).prop("checked", HeroInfo[heroList[x-1]].skills[y-1].isActive);
-      } else if (HeroInfo[heroList[x-1]].skills[y-1].reqLevel > HeroInfo[heroList[x-1]].heroLevel) {
-        HeroInfo[heroList[x-1]].skills[y-1].isActive = false;
-        $("#Hero"+x+"skill"+y).prop("checked", HeroInfo[heroList[x-1]].skills[y-1].isActive);
+      if (HeroInfo[x-1].skills[y-1].reqLevel < HeroInfo[x-1].heroLevel) {
+        HeroInfo[x-1].skills[y-1].isActive = true;
+        $("#Hero"+x+"skill"+y).prop("checked", HeroInfo[x-1].skills[y-1].isActive);
+      } else if (HeroInfo[x-1].skills[y-1].reqLevel > HeroInfo[x-1].heroLevel) {
+        HeroInfo[x-1].skills[y-1].isActive = false;
+        $("#Hero"+x+"skill"+y).prop("checked", HeroInfo[x-1].skills[y-1].isActive);
       }
-      HeroInfo[heroList[x-1]].skills[y-1].isActive = $("#Hero"+x+"skill"+y).is(":checked");
-      //$("#Hero1skill1").prop("checked", HeroInfo[heroList[0]].skills[0].isActive);
+      HeroInfo[x-1].skills[y-1].isActive = $("#Hero"+x+"skill"+y).is(":checked");
+      //$("#Hero1skill1").prop("checked", HeroInfo[0].skills[0].isActive);
     }
   }
 }
 function SetSkillsForEfficiency() {
   for (var x = 1; x < 31; x++) {
     for (var y = 1; y < 8; y++) {
-      if (HeroInfo[heroList[x-1]].skills[y-1].reqLevel < HeroInfo[heroList[x-1]].heroLevel) {
-        HeroInfo[heroList[x-1]].skills[y-1].isActive = true;
+      if (HeroInfo[x-1].skills[y-1].reqLevel < HeroInfo[x-1].heroLevel) {
+        HeroInfo[x-1].skills[y-1].isActive = true;
       }
-      //$("#Hero"+x+"skill"+y).prop("checked", HeroInfo[heroList[x-1]].skills[y-1].isActive);
-      //$("#Hero1skill1").prop("checked", HeroInfo[heroList[0]].skills[0].isActive);
+      //$("#Hero"+x+"skill"+y).prop("checked", HeroInfo[x-1].skills[y-1].isActive);
+      //$("#Hero1skill1").prop("checked", HeroInfo[0].skills[0].isActive);
     }
   }
 }
 
 function GetLevels() {
   for (var i = 0; i < 30; i++) {
-    HeroInfo[heroList[i]].heroLevel = parseInt($("#Hero"+(i+1)+"heroLevel").val());
+    HeroInfo[i].heroLevel = parseInt($("#Hero"+(i+1)+"heroLevel").val());
   }
-  HeroInfo[heroList[30]].heroLevel = parseInt($("#player0heroLevel").val());
-  HeroInfo[heroList[30]].clicks = parseInt($("#player0clicks").val());
+  Player.heroLevel = parseInt($("#player0heroLevel").val());
+  Player.clicks = parseInt($("#player0clicks").val());
   for (var j = 0; j < ArtifactInfo.length; j++) {
     ArtifactInfo[j].level = parseInt($("#"+ArtifactInfo[j].artifactID+"level").val());
     if (ArtifactInfo[j].level > parseInt(ArtifactInfo[j].maxLevel) && parseInt(ArtifactInfo[j].maxLevel) > 0) {
