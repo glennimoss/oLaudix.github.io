@@ -1,4 +1,6 @@
-ArtifactInfo =
+TT = {}
+
+TT.ArtifactInfo =
   [ { name: "Knight's Shield"
     , maxLevel: 0
     , bonusType: "GoldBoss"
@@ -291,7 +293,7 @@ ArtifactInfo =
     }
   ];
 
-HeroInfo =
+TT.HeroInfo =
   [ { name: "Takeda, the Blade Assassin"
     , cost: 50
     , heroID: 1
@@ -684,9 +686,17 @@ HeroInfo =
     }
   ];
 
-Player =
+TT.Player =
   { name: "Lightning Blade"
   , cost: 2
   , heroID: 0
   , skills: [] // ?
   };
+
+  /*
+Template.heroes.helpers({
+  TT: TT
+});
+*/
+
+UI.registerHelper("TT", TT);

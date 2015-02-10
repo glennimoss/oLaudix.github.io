@@ -1,4 +1,5 @@
 //$(function () {
+  /*
   for (var i = 0; i < HeroInfo.length; i++) {
     var hero = HeroInfo[i]
       , key = "hero" + i
@@ -43,6 +44,7 @@
     tr2.append("\n\n");
     $("#playertbl").append(tr2);
   }
+  */
 
   function printHeroInfo(hero) {
     //if (hero.currentDPS > 1000000) { $("#Hero"+(hero.heroID)+"currentDPS").html(hero.currentDPS.toExponential(3)); } else { $("#Hero"+hero.heroID+"currentDPS").html(Math.floor(hero.currentDPS)); }
@@ -363,8 +365,10 @@
     UpdateTables();
   }
 
+  /*
   buildArtifacts();
   UpdateTables();
+  */
   function UpdateTables() {
     GetLevels();
     SetSkillsForTable();

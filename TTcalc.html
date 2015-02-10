@@ -1,21 +1,5 @@
-<template name="calc">
-  <div class="panel panel-danger">
-    <div class="panel-heading">Read me!</div>
-    <div class="panel-body">
-      <h4>Instructions:</h4>
-      <ul>
-        <li>fill levels and skills of your heroes and artifact. Calculator automaticly assume that you own the skill if the hero level is higher than the skill req. It doesnt if the hero level is same as skill level req. Be aware of that.</li>
-        <li>Tapping options can be found under Player tab. If you dont plan to tap, set number of clicks to 0.</li>
-        <li>save panel is solely used for the calculator info. It saves time from filling all the required info, like artifact levels, every time you refresh the page.</li>
-        <li>Update Tables button only updates informations in the 3 tables.</li>
-        <li>Update Button on save panel calculates the best leveling sequence for the heroes, including skills (Goldwise). You have to manually fill the positions you completed for now.</li>
-        <li>You can specify number of steps you want to calculate.</li>
-      </ul>
-      BE AWARE OF THE DISPLAY BUGS. SOMETIMES NUMBERS MAY DIFFER FROM WHAT YOU SEE IN THE GAME.
-      <!-- If the calculator asks you to upgrade hero to level when you can buy a skill, it usually means it also wants you to buy it. -->
-    </div>
-  </div>
-  <div role="tabpanel">
+<template name="tabs">
+  <div role="tabpanel" style="display: inline-block;">
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><a href="#heroes" aria-controls="heroes" role="tab" data-toggle="tab">Heroes</a></li>
       <li role="presentation"><a href="#player" aria-controls="player" role="tab" data-toggle="tab">Player</a></li>
@@ -23,38 +7,18 @@
     </ul>
     <div class="tab-content table-responsive">
       <div role="tabpanel" class="tab-pane active" id="heroes">
-        <table id="ancienttbl" class="table table-striped" data-toggle="table">
-          <thead>
-            <tr>
-              <th data-field="name" data-sortable="true">Name</th>
-              <th>Skills</th>
-              <th data-field="upgrade_cost" data-sortable="true">Upgrade Cost</th>
-              <th data-field="dps" data-sortable="true">DpS</th>
-              <th data-field="next_dps_inc" data-sortable="true">Next Level DpS Diff</th>
-              <th data-field="level" data-sortable="true">Level</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+        {{> heroes}}
       </div>
       <div role="tabpanel" class="tab-pane" id="player">
-        <table id="playertbl" class="table table-striped">
-          <tbody><tr><th width="25%">Name</th><th width="15%">Upgrade Cost</th><th width="15%">DpS</th><th width="20%">Next Level DpS Diff</th><th width="5%">Level</th><th>Click per Second</th></tr>
-          </tbody>
-        </table>
-        <div id="playerdata">
-        </div>
+        {{> player}}
       </div>
       <div role="tabpanel" class="tab-pane" id="artifacts">
-        <table id="artifacttable" class="table table-striped">
-          <tbody>
-          </tbody>
-        </table>
+        {{> artifacts}}
       </div>
     </div>
     <button type="button" onclick="UpdateTables()" class="btn btn-default">Update Tables</button>
   </div>
+  <!--
   <div style="width: 500px; display: inline-block;">
     <div class="panel panel-primary">
       <div class="panel-heading">Save panel</div>
@@ -67,17 +31,95 @@
         </div>
       </div>
     </div>
-  <!--<label><input type="checkbox" id="addsouls" checked="checked">Include souls gained after ascension</label>-->
+  <!- -<label><input type="checkbox" id="addsouls" checked="checked">Include souls gained after ascension</label>- ->
     <div class="panel panel-success">
       <div class="panel-heading">Results: <input type="text" id="numberofpredictions" value="30">
       </div>
       <div id="output" class="panel-body"></div>
     </div>
   </div>
+  -->
   <!--
   <script src="tt_data.js"></script>
   <script src="common.js"></script>
 
   <script src="tt_calc.js"></script>
   -->
+</template>
+
+
+<template name="heroes">
+  <table id="ancienttbl" class="table table-striped table-condensed" data-toggle="not table" data-sort-name="id" data-sort-order="asc">
+    <thead>
+      <tr>
+        <th data-field="id" data-sortable="true" data-width="1">UI</th>
+        <th data-field="name" data-sortable="true">Name</th>
+        <th>Skills</th>
+        <th data-field="upgrade_cost" data-sortable="true">Upgrade Cost</th>
+        <th data-field="dps" data-sortable="true">DPS</th>
+        <th data-field="next_dps_inc" data-sortable="true">Next Level DPS Diff</th>
+        <th data-field="level" data-sortable="true" data-width="1">Level</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each TT.HeroInfo}}
+      <tr>
+        {{> hero}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="hero">
+  <td>{{heroID}}</td>
+  <td id="hero{{heroID}}">{{name}}</td>
+  <td>
+    {{#each skills}}
+    <input type="checkbox" id="hero{{../heroID}}skill{{skillID}}" title="ha" />
+    {{/each}}
+  </td>
+  <td id="hero{{heroID}}nextUpgradeCost">{{nextUpgradeCost}}</td>
+  <td id="hero{{heroID}}currentDPS">{{currentDPS}}</td>
+  <td id="hero{{heroID}}nextLevelDPSDiff">{{nextLevelDPSDiff}}</td>
+  <td>
+    <input id="hero{{heroID}}heroLevel" type="text" tabindex="{{heroID}}" size="4" data-bind="value: heroLevel" />
+    Hello there it seems you have entered level <span data-bind="text: heroLevel"></span>
+  </td>
+</template>
+
+<template name="player">
+  <table id="playertbl" class="table table-striped table-condensed" data-toggle="table">
+    <thead>
+      <tr>
+        <th width="25%">Name</th>
+        <th width="15%">Upgrade Cost</th>
+        <th width="15%">DpS</th>
+        <th width="20%">Next Level DpS Diff</th>
+        <th width="5%">Level</th>
+        <th>Click per Second</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {{#with TT.Player}}
+        <td><input id="player0name" type="text" value="{{name}}" /></td>
+        <td id="player0nextUpgradeCost">{{nextUpgradeCost}}</td>
+        <td id="player0currentDPS">{{currentDPS}}</td>
+        <td id="player0nextLevelDPSDiff">{{nextLevelDPSDiff}}</td>
+        <td><input id="player0heroLevel" type="text" value="1" /></td>
+        <td><input id="player0clicks" type="text" value="5" /></td>
+        {{/with}}
+      </tr>
+    </tbody>
+  </table>
+  <div id="playerdata">
+  </div>
+</template>
+
+<template name="artifacts">
+  <table id="artifacttable" class="table table-striped">
+    <tbody>
+    </tbody>
+  </table>
 </template>
