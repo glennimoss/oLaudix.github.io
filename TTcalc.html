@@ -1,97 +1,83 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.5.0/bootstrap-table.min.css">
-    <title>Tap Titans Heroes Calculator</title>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.5.0/bootstrap-table.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular.min.js"></script>
-  </head>
-  <body>
-    <div class="wrapper" style="display: inline-block;">
-      <div class="panel panel-danger">
-        <div class="panel-heading">Read me!</div>
-        <div class="panel-body">
-          <h4>Instructions:</h4>
-          <ul>
-            <li>fill levels and skills of your heroes and artifact. Calculator automaticly assume that you own the skill if the hero level is higher than the skill req. It doesnt if the hero level is same as skill level req. Be aware of that.</li>
-            <li>Tapping options can be found under Player tab. If you dont plan to tap, set number of clicks to 0.</li>
-            <li>save panel is solely used for the calculator info. It saves time from filling all the required info, like artifact levels, every time you refresh the page.</li>
-            <li>Update Tables button only updates informations in the 3 tables.</li>
-            <li>Update Button on save panel calculates the best leveling sequence for the heroes, including skills (Goldwise). You have to manually fill the positions you completed for now.</li>
-            <li>You can specify number of steps you want to calculate.</li>
-          </ul>
-          BE AWARE OF THE DISPLAY BUGS. SOMETIMES NUMBERS MAY DIFFER FROM WHAT YOU SEE IN THE GAME.
-          <!-- If the calculator asks you to upgrade hero to level when you can buy a skill, it usually means it also wants you to buy it. -->
+<template name="calc">
+  <div class="panel panel-danger">
+    <div class="panel-heading">Read me!</div>
+    <div class="panel-body">
+      <h4>Instructions:</h4>
+      <ul>
+        <li>fill levels and skills of your heroes and artifact. Calculator automaticly assume that you own the skill if the hero level is higher than the skill req. It doesnt if the hero level is same as skill level req. Be aware of that.</li>
+        <li>Tapping options can be found under Player tab. If you dont plan to tap, set number of clicks to 0.</li>
+        <li>save panel is solely used for the calculator info. It saves time from filling all the required info, like artifact levels, every time you refresh the page.</li>
+        <li>Update Tables button only updates informations in the 3 tables.</li>
+        <li>Update Button on save panel calculates the best leveling sequence for the heroes, including skills (Goldwise). You have to manually fill the positions you completed for now.</li>
+        <li>You can specify number of steps you want to calculate.</li>
+      </ul>
+      BE AWARE OF THE DISPLAY BUGS. SOMETIMES NUMBERS MAY DIFFER FROM WHAT YOU SEE IN THE GAME.
+      <!-- If the calculator asks you to upgrade hero to level when you can buy a skill, it usually means it also wants you to buy it. -->
+    </div>
+  </div>
+  <div role="tabpanel">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#heroes" aria-controls="heroes" role="tab" data-toggle="tab">Heroes</a></li>
+      <li role="presentation"><a href="#player" aria-controls="player" role="tab" data-toggle="tab">Player</a></li>
+      <li role="presentation"><a href="#artifacts" aria-controls="artifacts" role="tab" data-toggle="tab">Artifacts</a></li>
+    </ul>
+    <div class="tab-content table-responsive">
+      <div role="tabpanel" class="tab-pane active" id="heroes">
+        <table id="ancienttbl" class="table table-striped" data-toggle="table">
+          <thead>
+            <tr>
+              <th data-field="name" data-sortable="true">Name</th>
+              <th>Skills</th>
+              <th data-field="upgrade_cost" data-sortable="true">Upgrade Cost</th>
+              <th data-field="dps" data-sortable="true">DpS</th>
+              <th data-field="next_dps_inc" data-sortable="true">Next Level DpS Diff</th>
+              <th data-field="level" data-sortable="true">Level</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="player">
+        <table id="playertbl" class="table table-striped">
+          <tbody><tr><th width="25%">Name</th><th width="15%">Upgrade Cost</th><th width="15%">DpS</th><th width="20%">Next Level DpS Diff</th><th width="5%">Level</th><th>Click per Second</th></tr>
+          </tbody>
+        </table>
+        <div id="playerdata">
         </div>
       </div>
-      <div role="tabpanel">
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#heroes" aria-controls="heroes" role="tab" data-toggle="tab">Heroes</a></li>
-          <li role="presentation"><a href="#player" aria-controls="player" role="tab" data-toggle="tab">Player</a></li>
-          <li role="presentation"><a href="#artifacts" aria-controls="artifacts" role="tab" data-toggle="tab">Artifacts</a></li>
-        </ul>
-        <div class="tab-content table-responsive">
-          <div role="tabpanel" class="tab-pane active" id="heroes">
-            <table id="ancienttbl" class="table table-striped" data-toggle="table">
-              <thead>
-                <tr>
-                  <th data-field="name" data-sortable="true">Name</th>
-                  <th>Skills</th>
-                  <th data-field="upgrade_cost" data-sortable="true">Upgrade Cost</th>
-                  <th data-field="dps" data-sortable="true">DpS</th>
-                  <th data-field="next_dps_inc" data-sortable="true">Next Level DpS Diff</th>
-                  <th data-field="level" data-sortable="true">Level</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-          <div role="tabpanel" class="tab-pane" id="player">
-            <table id="playertbl" class="table table-striped">
-              <tbody><tr><th width="25%">Name</th><th width="15%">Upgrade Cost</th><th width="15%">DpS</th width="20%"><th>Next Level DpS Diff</th><th width="5%">Level</th><th>Click per Second</th></tr>
-              </tbody>
-            </table>
-            <div id="playerdata">
-            </div>
-          </div>
-          <div role="tabpanel" class="tab-pane" id="artifacts">
-            <table id="artifacttable" class="table table-striped">
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <button type="button" onclick="UpdateTables()" class="btn btn-default">Update Tables</button>
+      <div role="tabpanel" class="tab-pane" id="artifacts">
+        <table id="artifacttable" class="table table-striped">
+          <tbody>
+          </tbody>
+        </table>
       </div>
-      <div style="width: 500px; display: inline-block;">
-        <div class="panel panel-primary">
-          <div class="panel-heading">Save panel</div>
-          <div class="panel-body">
-            <textarea id="savedata" style="width: 100%; height: 50px"></textarea>
-            <div style="margin-top: 10px;">
-              <button type="button" onclick="EfficiencyCalculations()" class="btn btn-default">Update</button>
-              <button type="button" onclick="Load()" class="btn btn-primary" style="float: right;">Load</button>
-              <button type="button" onclick="Save()" class="btn btn-default" style="float: right;">Save</button>
-            </div>
-          </div>
-        </div>
-      <!--<label><input type="checkbox" id="addsouls" checked="checked">Include souls gained after ascension</label>-->
-        <div class="panel panel-success">
-          <div class="panel-heading">Results: <input type="text" id="numberofpredictions" value="30">
-          </div>
-          <div id="output" class="panel-body"></div>
+    </div>
+    <button type="button" onclick="UpdateTables()" class="btn btn-default">Update Tables</button>
+  </div>
+  <div style="width: 500px; display: inline-block;">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Save panel</div>
+      <div class="panel-body">
+        <textarea id="savedata" style="width: 100%; height: 50px"></textarea>
+        <div style="margin-top: 10px;">
+          <button type="button" onclick="EfficiencyCalculations()" class="btn btn-default">Update</button>
+          <button type="button" onclick="Load()" class="btn btn-primary" style="float: right;">Load</button>
+          <button type="button" onclick="Save()" class="btn btn-default" style="float: right;">Save</button>
         </div>
       </div>
     </div>
-    <script src="tt_data.js"></script>
-    <script src="common.js"></script>
+  <!--<label><input type="checkbox" id="addsouls" checked="checked">Include souls gained after ascension</label>-->
+    <div class="panel panel-success">
+      <div class="panel-heading">Results: <input type="text" id="numberofpredictions" value="30">
+      </div>
+      <div id="output" class="panel-body"></div>
+    </div>
+  </div>
+  <!--
+  <script src="tt_data.js"></script>
+  <script src="common.js"></script>
 
-    <script src="tt_calc.js"></script>
-  </body>
-</html>
+  <script src="tt_calc.js"></script>
+  -->
+</template>

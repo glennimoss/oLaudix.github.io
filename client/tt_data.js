@@ -1,4 +1,4 @@
-var ArtifactInfo =
+ArtifactInfo =
   [ { name: "Knight's Shield"
     , maxLevel: 0
     , bonusType: "GoldBoss"
@@ -291,7 +291,7 @@ var ArtifactInfo =
     }
   ];
 
-var HeroInfo =
+HeroInfo =
   [ { name: "Takeda, the Blade Assassin"
     , cost: 50
     , heroID: 1
@@ -684,7 +684,7 @@ var HeroInfo =
     }
   ];
 
-var Player =
+Player =
   { name: "Lightning Blade"
   , cost: 2
   , heroID: 0
