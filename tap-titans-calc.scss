@@ -1,3 +1,29 @@
-.number {
-  text-align: right
+#tt {
+  .number {
+    text-align: right
+  }
+
+  .table {
+    margin-bottom: 0;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+/*
+.tab-pane {
+  border: 1px solid #ddd;
+  border-top: none;
+}
+*/
+
+.nav-tabs > li > a {
+  border-radius: 4px 4px 0 0;
+}
+
+.tab-content {
+  border: 1px solid #ddd;
+  border-top: none;
 }

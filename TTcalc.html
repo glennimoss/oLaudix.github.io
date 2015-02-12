@@ -1,11 +1,11 @@
 <template name="tabs">
-  <div role="tabpanel" style="display: inline-block;">
+  <div role="tabpanel">
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><a href="#heroes" aria-controls="heroes" role="tab" data-toggle="tab">Heroes</a></li>
       <li role="presentation"><a href="#player" aria-controls="player" role="tab" data-toggle="tab">Player</a></li>
       <li role="presentation"><a href="#artifacts" aria-controls="artifacts" role="tab" data-toggle="tab">Artifacts</a></li>
     </ul>
-    <div class="tab-content table-responsive">
+    <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="heroes">
         {{> heroes}}
       </div>
@@ -18,33 +18,25 @@
     </div>
     <button type="button" onclick="TT.UpdateTables()" class="btn btn-default">Update Tables</button>
   </div>
-  <!--
-  <div style="width: 500px; display: inline-block;">
+  <div>
     <div class="panel panel-primary">
       <div class="panel-heading">Save panel</div>
       <div class="panel-body">
-        <textarea id="savedata" style="width: 100%; height: 50px"></textarea>
+        <textarea id="savedata"></textarea>
         <div style="margin-top: 10px;">
-          <button type="button" onclick="EfficiencyCalculations()" class="btn btn-default">Update</button>
-          <button type="button" onclick="Load()" class="btn btn-primary" style="float: right;">Load</button>
-          <button type="button" onclick="Save()" class="btn btn-default" style="float: right;">Save</button>
+          <button type="button" onclick="TT.EfficiencyCalculations()" class="btn btn-default">Update</button>
+          <button type="button" onclick="TT.Load()" class="btn btn-primary" style="float: right;">Load</button>
+          <button type="button" onclick="TT.Save()" class="btn btn-default" style="float: right;">Save</button>
         </div>
       </div>
     </div>
-  <!- -<label><input type="checkbox" id="addsouls" checked="checked">Include souls gained after ascension</label>- ->
+  <!--<label><input type="checkbox" id="addsouls" checked="checked">Include souls gained after ascension</label>-->
     <div class="panel panel-success">
       <div class="panel-heading">Results: <input type="text" id="numberofpredictions" value="30">
       </div>
       <div id="output" class="panel-body"></div>
     </div>
   </div>
-  -->
-  <!--
-  <script src="tt_data.js"></script>
-  <script src="common.js"></script>
-
-  <script src="tt_calc.js"></script>
-  -->
 </template>
 
 
@@ -52,13 +44,13 @@
   <table id="herotable" class="table table-striped table-condensed" data-toggle="not table" data-sort-name="id" data-sort-order="asc">
     <thead>
       <tr>
-        <th data-field="id" data-sortable="true" data-width="1">UI</th>
+        <!--<th data-field="id" data-sortable="true" data-width="1">UI</th>-->
         <th data-field="name" data-sortable="true">Name</th>
-        <th>Skills</th>
-        <th data-field="upgrade_cost" data-sortable="true">Upgrade Cost</th>
-        <th data-field="dps" data-sortable="true">DPS</th>
-        <th data-field="next_dps_inc" data-sortable="true">Next Level DPS Diff</th>
-        <th data-field="level" data-sortable="true" data-width="1">Level</th>
+        <th width="1">Skills</th>
+        <th data-field="upgrade_cost" data-sortable="true" class="number">Upgrade Cost</th>
+        <th data-field="dps" data-sortable="true" class="number">DPS</th>
+        <th data-field="next_dps_inc" data-sortable="true" class="number">Next Level DPS Diff</th>
+        <th data-field="level" data-sortable="true" data-width="1" width="1">Level</th>
       </tr>
     </thead>
     <tbody>
@@ -72,9 +64,9 @@
 </template>
 
 <template name="hero">
-  <td>{{heroID}}</td>
+<!--<td>{{heroID}}</td>-->
   <td id="hero{{heroID}}">{{name}}</td>
-  <td>
+  <td class="text-nowrap">
     {{#each skills}}
     <input type="checkbox" id="skill{{skillID}}" title="ha" />
     {{/each}}
@@ -92,11 +84,11 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>Upgrade Cost</th>
-        <th>DpS</th>
-        <th>Next Level DpS Diff</th>
-        <th>Level</th>
-        <th>TPS</th>
+        <th class="number">Upgrade Cost</th>
+        <th class="number">DPS</th>
+        <th class="number">Next Level DPS Diff</th>
+        <th class="number" width="1">Level</th>
+        <th class="number" width="1">TPS</th>
       </tr>
     </thead>
     <tbody>
@@ -106,7 +98,7 @@
         <td id="player0nextUpgradeCost" class="number">{{nextUpgradeCost}}</td>
         <td id="player0currentDPS" class="number">{{currentDPS}}</td>
         <td id="player0nextLevelDPSDiff" class="number">{{nextLevelDPSDiff}}</td>
-        <td><input id="player0heroLevel" class="number" type="text" value="1" size="4"/></td>
+        <td><input id="player0heroLevel" class="number" type="text" value="1" size="3"/></td>
         <td><input id="player0clicks" class="number" type="text" value="5" size="2"/></td>
         {{/with}}
       </tr>
@@ -122,10 +114,10 @@
       <tr>
         <th>Artifact</th>
         <th>Bonus Type</th>
-        <th>Bonus Strength</th>
-        <th>Damage Bonus</th>
-        <th>Upgrade Cost</th>
-        <th>Level</th>
+        <th class="number">Bonus Strength</th>
+        <th class="number">Damage Bonus</th>
+        <th class="number">Upgrade Cost</th>
+        <th width="1">Level</th>
       </tr>
     </thead>
     <tbody>
@@ -144,5 +136,5 @@
   <td id="{{artifactID}}artifactBonus" class="number">{{asPercent bonusPerLevel}}</td>
   <td id="{{artifactID}}DamageBonus" class="number">{{asPercent DamageBonus}}</td>
   <td id="{{artifactID}}upgradeCost" class="number">{{TT.getArtifactUpgradeCost this}}</td>
-  <td><input id="{{artifactID}}level" class="number" type="text" value="0" size="4" />{{#if maxLevel}}/ {{maxLevel}}{{/if}}</td>
+  <td class="text-nowrap"><input id="{{artifactID}}level" class="number" type="text" value="0" size="4" />{{#if maxLevel}}/{{maxLevel}}{{/if}}</td>
 </template>

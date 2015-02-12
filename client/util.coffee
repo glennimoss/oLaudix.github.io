@@ -22,7 +22,8 @@ TT.numberFormat = (number) ->
     if unitCode > _WayTooBigUnit
       unit = "e" + (exp*3)
   num = num / 1000**exp
-  return _PrettyFmt.format(num) + unit
+  s = _PrettyFmt.format(num) + unit
+  return s
 
 _PctFmt = Intl.NumberFormat(undefined, {style: "percent"})
 

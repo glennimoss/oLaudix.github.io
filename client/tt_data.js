@@ -297,6 +297,7 @@ TT.Artifact = { dummy: null
               , FuturesFortune: TT.ArtifactInfo[19]
               , RingOfWonderousCharm: TT.ArtifactInfo[23]
               , TinctureOfTheMaker: TT.ArtifactInfo[25]
+              , DrunkenHammer: TT.ArtifactInfo[28]
               };
 
 TT.HeroInfo =
@@ -699,10 +700,4 @@ TT.Player =
   , skills: [] // ?
   };
 
-  /*
-Template.heroes.helpers({
-  TT: TT
-});
-*/
-
-UI.registerHelper("TT", TT);
+Template.registerHelper("TT", TT);
