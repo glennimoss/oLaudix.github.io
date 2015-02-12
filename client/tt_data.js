@@ -1,13 +1,11 @@
-TT = {}
-
 TT.ArtifactInfo =
   [ { name: "Knight's Shield"
     , maxLevel: 0
     , bonusType: "GoldBoss"
     , bonusPerLevel: 1.00
-    , DamageBonus: 0.6
-    , CostCoEff: 0.7
-    , CostExpo: 1.5
+    , damageBonus: 0.6
+    , costCoEff: 0.7
+    , costExpo: 1.5
     , artifactID: "Artifact1"
     , level: 0
     }
@@ -15,9 +13,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "GoldMinion"
     , bonusPerLevel: 0.10
-    , DamageBonus: 0.5
-    , CostCoEff: 0.7
-    , CostExpo: 2
+    , damageBonus: 0.5
+    , costCoEff: 0.7
+    , costExpo: 2
     , artifactID: "Artifact2"
     , level: 0
     }
@@ -25,9 +23,9 @@ TT.ArtifactInfo =
     , maxLevel: 25
     , bonusType: "BossLife"
     , bonusPerLevel: -0.02
-    , DamageBonus: 0.3
-    , CostCoEff: 0.5
-    , CostExpo: 2
+    , damageBonus: 0.3
+    , costCoEff: 0.5
+    , costExpo: 2
     , artifactID: "Artifact3"
     , level: 0
     }
@@ -35,9 +33,9 @@ TT.ArtifactInfo =
     , maxLevel: 25
     , bonusType: "CritChance"
     , bonusPerLevel: 0.02
-    , DamageBonus: 0.3
-    , CostCoEff: 0.5
-    , CostExpo: 2
+    , damageBonus: 0.3
+    , costCoEff: 0.5
+    , costExpo: 2
     , artifactID: "Artifact4"
     , level: 0
     }
@@ -45,9 +43,9 @@ TT.ArtifactInfo =
     , maxLevel: 25
     , bonusType: "BossTime"
     , bonusPerLevel: 0.10
-    , DamageBonus: 0.3
-    , CostCoEff: 0.5
-    , CostExpo: 1.7
+    , damageBonus: 0.3
+    , costCoEff: 0.5
+    , costExpo: 1.7
     , artifactID: "Artifact5"
     , level: 0
     }
@@ -55,9 +53,9 @@ TT.ArtifactInfo =
     , maxLevel: 10
     , bonusType: "SkillConstantDamageCD"
     , bonusPerLevel: -0.05
-    , DamageBonus: 0.7
-    , CostCoEff: 0.4
-    , CostExpo: 1.5
+    , damageBonus: 0.7
+    , costCoEff: 0.4
+    , costExpo: 1.5
     , artifactID: "Artifact6"
     , level: 0
     }
@@ -65,9 +63,9 @@ TT.ArtifactInfo =
     , maxLevel: 10
     , bonusType: "SkillCriticalChanceBoostCD"
     , bonusPerLevel: -0.05
-    , DamageBonus: 0.7
-    , CostCoEff: 0.4
-    , CostExpo: 1.5
+    , damageBonus: 0.7
+    , costCoEff: 0.4
+    , costExpo: 1.5
     , artifactID: "Artifact7"
     , level: 0
     }
@@ -75,9 +73,9 @@ TT.ArtifactInfo =
     , maxLevel: 10
     , bonusType: "SkillHeroesAttackSpeedIncreaseCD"
     , bonusPerLevel: -0.05
-    , DamageBonus: 0.7
-    , CostCoEff: 0.4
-    , CostExpo: 1.5
+    , damageBonus: 0.7
+    , costCoEff: 0.4
+    , costExpo: 1.5
     , artifactID: "Artifact8"
     , level: 0
     }
@@ -85,9 +83,9 @@ TT.ArtifactInfo =
     , maxLevel: 10
     , bonusType: "SkillTapGoldCD"
     , bonusPerLevel: -0.05
-    , DamageBonus: 0.7
-    , CostCoEff: 0.7
-    , CostExpo: 1.5
+    , damageBonus: 0.7
+    , costCoEff: 0.7
+    , costExpo: 1.5
     , artifactID: "Artifact9"
     , level: 0
     }
@@ -95,9 +93,9 @@ TT.ArtifactInfo =
     , maxLevel: 10
     , bonusType: "SkillTapDamageIncreaseCD"
     , bonusPerLevel: -0.05
-    , DamageBonus: 0.7
-    , CostCoEff: 0.4
-    , CostExpo: 1.5
+    , damageBonus: 0.7
+    , costCoEff: 0.4
+    , costExpo: 1.5
     , artifactID: "Artifact10"
     , level: 0
     }
@@ -105,9 +103,9 @@ TT.ArtifactInfo =
     , maxLevel: 10
     , bonusType: "SkillBurstDamageCD"
     , bonusPerLevel: -0.05
-    , DamageBonus: 0.7
-    , CostCoEff: 0.3
-    , CostExpo: 1.5
+    , damageBonus: 0.7
+    , costCoEff: 0.3
+    , costExpo: 1.5
     , artifactID: "Artifact11"
     , level: 0
     }
@@ -115,9 +113,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "SkillConstantDamageDuration"
     , bonusPerLevel: 0.10
-    , DamageBonus: 0.7
-    , CostCoEff: 0.5
-    , CostExpo: 1.7
+    , damageBonus: 0.7
+    , costCoEff: 0.5
+    , costExpo: 1.7
     , artifactID: "Artifact12"
     , level: 0
     }
@@ -125,9 +123,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "SkillCriticalChanceBoostDuration"
     , bonusPerLevel: 0.10
-    , DamageBonus: 0.7
-    , CostCoEff: 0.5
-    , CostExpo: 1.7
+    , damageBonus: 0.7
+    , costCoEff: 0.5
+    , costExpo: 1.7
     , artifactID: "Artifact13"
     , level: 0
     }
@@ -135,9 +133,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "SkillHeroesAttackSpeedIncreaseDuration"
     , bonusPerLevel: 0.10
-    , DamageBonus: 0.7
-    , CostCoEff: 0.5
-    , CostExpo: 1.7
+    , damageBonus: 0.7
+    , costCoEff: 0.5
+    , costExpo: 1.7
     , artifactID: "Artifact14"
     , level: 0
     }
@@ -145,9 +143,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "SKillTapGoldDuration"
     , bonusPerLevel: 0.10
-    , DamageBonus: 0.7
-    , CostCoEff: 0.7
-    , CostExpo: 1.7
+    , damageBonus: 0.7
+    , costCoEff: 0.7
+    , costExpo: 1.7
     , artifactID: "Artifact15"
     , level: 0
     }
@@ -155,9 +153,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "SkillTapDamageIncreaseDuration"
     , bonusPerLevel: 0.10
-    , DamageBonus: 0.7
-    , CostCoEff: 0.5
-    , CostExpo: 1.7
+    , damageBonus: 0.7
+    , costCoEff: 0.5
+    , costExpo: 1.7
     , artifactID: "Artifact16"
     , level: 0
     }
@@ -165,9 +163,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "CritDamageArtifact"
     , bonusPerLevel: 0.20
-    , DamageBonus: 0.3
-    , CostCoEff: 0.7
-    , CostExpo: 1.7
+    , damageBonus: 0.3
+    , costCoEff: 0.7
+    , costExpo: 1.7
     , artifactID: "Artifact17"
     , level: 0
     }
@@ -175,9 +173,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "TreasureChance"
     , bonusPerLevel: 0.20
-    , DamageBonus: 0.4
-    , CostCoEff: 1
-    , CostExpo: 1.5
+    , damageBonus: 0.4
+    , costCoEff: 1
+    , costExpo: 1.5
     , artifactID: "Artifact18"
     , level: 0
     }
@@ -185,9 +183,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "GoldTreasureArtifact"
     , bonusPerLevel: 0.20
-    , DamageBonus: 0.4
-    , CostCoEff: 1
-    , CostExpo: 1.5
+    , damageBonus: 0.4
+    , costCoEff: 1
+    , costExpo: 1.5
     , artifactID: "Artifact19"
     , level: 0
     }
@@ -195,9 +193,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "GoldAll"
     , bonusPerLevel: 0.05
-    , DamageBonus: 0.3
-    , CostCoEff: 0.7
-    , CostExpo: 2
+    , damageBonus: 0.3
+    , costCoEff: 0.7
+    , costExpo: 2
     , artifactID: "Artifact20"
     , level: 0
     }
@@ -205,9 +203,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "Gold10xChance"
     , bonusPerLevel: 0.01
-    , DamageBonus: 0.3
-    , CostCoEff: 0.7
-    , CostExpo: 1.7
+    , damageBonus: 0.3
+    , costCoEff: 0.7
+    , costExpo: 1.7
     , artifactID: "Artifact21"
     , level: 0
     }
@@ -215,9 +213,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "PrestigeRelic"
     , bonusPerLevel: 0.05
-    , DamageBonus: 0.3
-    , CostCoEff: 0.7
-    , CostExpo: 2
+    , damageBonus: 0.3
+    , costCoEff: 0.7
+    , costExpo: 2
     , artifactID: "Artifact22"
     , level: 0
     }
@@ -225,9 +223,9 @@ TT.ArtifactInfo =
     , maxLevel: 10
     , bonusType: "ReviveTime"
     , bonusPerLevel: -0.05
-    , DamageBonus: 0.7
-    , CostCoEff: 1
-    , CostExpo: 2.2
+    , damageBonus: 0.7
+    , costCoEff: 1
+    , costExpo: 2.2
     , artifactID: "Artifact23"
     , level: 0
     }
@@ -235,9 +233,9 @@ TT.ArtifactInfo =
     , maxLevel: 25
     , bonusType: "AllUpgradeCost"
     , bonusPerLevel: -0.02
-    , DamageBonus: 0.3
-    , CostCoEff: 0.5
-    , CostExpo: 1.7
+    , damageBonus: 0.3
+    , costCoEff: 0.5
+    , costExpo: 1.7
     , artifactID: "Artifact24"
     , level: 0
     }
@@ -245,9 +243,9 @@ TT.ArtifactInfo =
     , maxLevel: 5
     , bonusType: "MonstersRequiredToAdvance"
     , bonusPerLevel: -1.00
-    , DamageBonus: 3
-    , CostCoEff: 0.5
-    , CostExpo: 3
+    , damageBonus: 3
+    , costCoEff: 0.5
+    , costExpo: 3
     , artifactID: "Artifact25"
     , level: 0
     }
@@ -255,9 +253,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "ArtifactDamageBoost"
     , bonusPerLevel: 0.05
-    , DamageBonus: 0.1
-    , CostCoEff: 0.6
-    , CostExpo: 2.5
+    , damageBonus: 0.1
+    , costCoEff: 0.6
+    , costExpo: 2.5
     , artifactID: "Artifact26"
     , level: 0
     }
@@ -265,9 +263,9 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "GoldOnline"
     , bonusPerLevel: 0.15
-    , DamageBonus: 0.4
-    , CostCoEff: 0.5
-    , CostExpo: 1.8
+    , damageBonus: 0.4
+    , costCoEff: 0.5
+    , costExpo: 1.8
     , artifactID: "Artifact27"
     , level: 0
     }
@@ -275,9 +273,9 @@ TT.ArtifactInfo =
     , maxLevel: 10
     , bonusType: "HeroDeathChance"
     , bonusPerLevel: -0.05
-    , DamageBonus: 0.7
-    , CostCoEff: 1
-    , CostExpo: 2.2
+    , damageBonus: 0.7
+    , costCoEff: 1
+    , costExpo: 2.2
     , artifactID: "Artifact28"
     , level: 0
     }
@@ -285,13 +283,21 @@ TT.ArtifactInfo =
     , maxLevel: 0
     , bonusType: "TapDamageArtifact"
     , bonusPerLevel: 0.05
-    , DamageBonus: 0.3
-    , CostCoEff: 0.5
-    , CostExpo: 1.7
+    , damageBonus: 0.3
+    , costCoEff: 0.5
+    , costExpo: 1.7
     , artifactID: "Artifact29"
     , level: 0
     }
   ];
+
+TT.Artifact = { dummy: null
+              , DeathSeeker: TT.ArtifactInfo[3]
+              , HerosThrust: TT.ArtifactInfo[16]
+              , FuturesFortune: TT.ArtifactInfo[19]
+              , RingOfWonderousCharm: TT.ArtifactInfo[23]
+              , TinctureOfTheMaker: TT.ArtifactInfo[25]
+              };
 
 TT.HeroInfo =
   [ { name: "Takeda, the Blade Assassin"

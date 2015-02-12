@@ -16,7 +16,7 @@
         {{> artifacts}}
       </div>
     </div>
-    <button type="button" onclick="UpdateTables()" class="btn btn-default">Update Tables</button>
+    <button type="button" onclick="TT.UpdateTables()" class="btn btn-default">Update Tables</button>
   </div>
   <!--
   <div style="width: 500px; display: inline-block;">
@@ -49,7 +49,7 @@
 
 
 <template name="heroes">
-  <table id="ancienttbl" class="table table-striped table-condensed" data-toggle="not table" data-sort-name="id" data-sort-order="asc">
+  <table id="herotable" class="table table-striped table-condensed" data-toggle="not table" data-sort-name="id" data-sort-order="asc">
     <thead>
       <tr>
         <th data-field="id" data-sortable="true" data-width="1">UI</th>
@@ -76,39 +76,38 @@
   <td id="hero{{heroID}}">{{name}}</td>
   <td>
     {{#each skills}}
-    <input type="checkbox" id="hero{{../heroID}}skill{{skillID}}" title="ha" />
+    <input type="checkbox" id="skill{{skillID}}" title="ha" />
     {{/each}}
   </td>
-  <td id="hero{{heroID}}nextUpgradeCost">{{nextUpgradeCost}}</td>
-  <td id="hero{{heroID}}currentDPS">{{currentDPS}}</td>
-  <td id="hero{{heroID}}nextLevelDPSDiff">{{nextLevelDPSDiff}}</td>
+  <td id="hero{{heroID}}nextUpgradeCost" class="number">{{nextUpgradeCost}}</td>
+  <td id="hero{{heroID}}currentDPS" class="number">{{currentDPS}}</td>
+  <td id="hero{{heroID}}nextLevelDPSDiff" class="number">{{nextLevelDPSDiff}}</td>
   <td>
-    <input id="hero{{heroID}}heroLevel" type="text" tabindex="{{heroID}}" size="4" data-bind="value: heroLevel" />
-    Hello there it seems you have entered level <span data-bind="text: heroLevel"></span>
+    <input id="hero{{heroID}}heroLevel" class="number" type="text" tabindex="{{heroID}}" size="4" data-bind="value: heroLevel" />
   </td>
 </template>
 
 <template name="player">
-  <table id="playertbl" class="table table-striped table-condensed" data-toggle="table">
+  <table id="playertbl" class="table table-striped table-condensed" data-toggle="not table">
     <thead>
       <tr>
-        <th width="25%">Name</th>
-        <th width="15%">Upgrade Cost</th>
-        <th width="15%">DpS</th>
-        <th width="20%">Next Level DpS Diff</th>
-        <th width="5%">Level</th>
-        <th>Click per Second</th>
+        <th>Name</th>
+        <th>Upgrade Cost</th>
+        <th>DpS</th>
+        <th>Next Level DpS Diff</th>
+        <th>Level</th>
+        <th>TPS</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         {{#with TT.Player}}
         <td><input id="player0name" type="text" value="{{name}}" /></td>
-        <td id="player0nextUpgradeCost">{{nextUpgradeCost}}</td>
-        <td id="player0currentDPS">{{currentDPS}}</td>
-        <td id="player0nextLevelDPSDiff">{{nextLevelDPSDiff}}</td>
-        <td><input id="player0heroLevel" type="text" value="1" /></td>
-        <td><input id="player0clicks" type="text" value="5" /></td>
+        <td id="player0nextUpgradeCost" class="number">{{nextUpgradeCost}}</td>
+        <td id="player0currentDPS" class="number">{{currentDPS}}</td>
+        <td id="player0nextLevelDPSDiff" class="number">{{nextLevelDPSDiff}}</td>
+        <td><input id="player0heroLevel" class="number" type="text" value="1" size="4"/></td>
+        <td><input id="player0clicks" class="number" type="text" value="5" size="2"/></td>
         {{/with}}
       </tr>
     </tbody>
@@ -119,7 +118,31 @@
 
 <template name="artifacts">
   <table id="artifacttable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Artifact</th>
+        <th>Bonus Type</th>
+        <th>Bonus Strength</th>
+        <th>Damage Bonus</th>
+        <th>Upgrade Cost</th>
+        <th>Level</th>
+      </tr>
+    </thead>
     <tbody>
+      {{#each TT.ArtifactInfo}}
+      <tr>
+        {{> artifact}}
+      </tr>
+      {{/each}}
     </tbody>
   </table>
+</template>
+
+<template name="artifact">
+  <td id="{{artifactID}}name">{{name}}</td>
+  <td id="{{artifactID}}bonusType">{{bonusType}}</td>
+  <td id="{{artifactID}}artifactBonus" class="number">{{asPercent bonusPerLevel}}</td>
+  <td id="{{artifactID}}DamageBonus" class="number">{{asPercent DamageBonus}}</td>
+  <td id="{{artifactID}}upgradeCost" class="number">{{TT.getArtifactUpgradeCost this}}</td>
+  <td><input id="{{artifactID}}level" class="number" type="text" value="0" size="4" />{{#if maxLevel}}/ {{maxLevel}}{{/if}}</td>
 </template>
