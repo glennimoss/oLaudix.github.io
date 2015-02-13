@@ -54,7 +54,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each TT.HeroInfo}}
+      {{#each TT.objs.Heroes}}
       <tr>
         {{> hero}}
       </tr>
@@ -68,12 +68,12 @@
   <td id="hero{{heroID}}">{{name}}</td>
   <td class="text-nowrap">
     {{#each skills}}
-    <input type="checkbox" id="skill{{skillID}}" title="ha" />
+    <input type="checkbox" id="skill{{skillID}}" title="ha" data-bind="checked: skill{{skillID}}" />
     {{/each}}
   </td>
-  <td id="hero{{heroID}}nextUpgradeCost" class="number">{{nextUpgradeCost}}</td>
-  <td id="hero{{heroID}}currentDPS" class="number">{{currentDPS}}</td>
-  <td id="hero{{heroID}}nextLevelDPSDiff" class="number">{{nextLevelDPSDiff}}</td>
+  <td id="hero{{heroID}}nextUpgradeCost" class="number" data-bind="text: nextUpgradeCost"></td>
+  <td id="hero{{heroID}}currentDPS" class="number" data-bind="text: currentDPS"></td>
+  <td id="hero{{heroID}}nextLevelDPSDiff" class="number" data-bind="text: nextLevelDPSDiff"></td>
   <td>
     <input id="hero{{heroID}}heroLevel" class="number" type="text" tabindex="{{heroID}}" size="4" data-bind="value: heroLevel" />
   </td>

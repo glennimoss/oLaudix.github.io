@@ -1,1 +1,1 @@
-TT = {}
+Template.registerHelper("TT", TT)

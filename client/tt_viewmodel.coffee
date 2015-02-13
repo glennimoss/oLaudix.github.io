@@ -1,5 +1,10 @@
 Template.hero.rendered = ->
-  vm = new ViewModel(this.data).extend(
+  em =
     heroLevel: 0
-  ).bind @
+    nextUpgradeCost: 0
+    currentDPS: 0
+    nextLevelDPSDiff: 0
+  for skill in this.data.skills
+    em["skill#{skill.skillID}"] = false
 
+  TT.vm.push(new ViewModel(this.data).extend(em).bind @)

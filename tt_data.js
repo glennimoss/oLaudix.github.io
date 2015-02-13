@@ -699,5 +699,3 @@ TT.Player =
   , heroID: 0
   , skills: [] // ?
   };
-
-Template.registerHelper("TT", TT);

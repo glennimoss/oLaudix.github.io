@@ -409,4 +409,4 @@ TT.EfficiencyCalculations = () ->
   TT.UpdateTables()
   TT.GetEfficiency()
 
-$(TT.UpdateTables)
+#$(TT.UpdateTables)
