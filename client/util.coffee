@@ -28,7 +28,8 @@ TT.numberFormat = (number) ->
 _PctFmt = Intl.NumberFormat(undefined, {style: "percent"})
 
 helpers =
-  asPercent: _PctFmt.format
+  asPercent: (num) ->
+    (if num > 0 then '+' else '') + _PctFmt.format(num)
   numberFormat: TT.numberFormat
 
 for name, func of helpers

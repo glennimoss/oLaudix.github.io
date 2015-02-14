@@ -54,7 +54,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each TT.objs.Heroes}}
+      {{#each TapTitans.Heroes}}
       <tr>
         {{> hero}}
       </tr>
@@ -64,19 +64,26 @@
 </template>
 
 <template name="hero">
-<!--<td>{{heroID}}</td>-->
-  <td id="hero{{heroID}}">{{name}}</td>
+<!--<td>{{heroId}}</td>-->
+  <td id="hero{{heroId}}">{{name}}</td>
   <td class="text-nowrap">
     {{#each skills}}
-    <input type="checkbox" id="skill{{skillID}}" title="ha" data-bind="checked: skill{{skillID}}" />
+      {{> skillbox}}
     {{/each}}
   </td>
-  <td id="hero{{heroID}}nextUpgradeCost" class="number" data-bind="text: nextUpgradeCost"></td>
-  <td id="hero{{heroID}}currentDPS" class="number" data-bind="text: currentDPS"></td>
-  <td id="hero{{heroID}}nextLevelDPSDiff" class="number" data-bind="text: nextLevelDPSDiff"></td>
+  <!--<td id="hero{{heroId}}nextUpgradeCost" class="number" data-bind="text: getUpgradeCost"></td>-->
+  <td id="hero{{heroId}}nextUpgradeCost" class="number">{{numberFormat getUpgradeCost}}</td>
+  <!--<td id="hero{{heroId}}currentDPS" class="number" data-bind="text: getDps"></td>-->
+  <td id="hero{{heroId}}currentDPS" class="number">{{numberFormat getDps}}</td>
+  <td id="hero{{heroId}}nextLevelDPSDiff" class="number" data-bind="text: nextLevelDpsDiff"></td>
   <td>
-    <input id="hero{{heroID}}heroLevel" class="number" type="text" tabindex="{{heroID}}" size="4" data-bind="value: heroLevel" />
+    <!--<input id="hero{{heroId}}heroLevel" class="number" type="text" tabindex="{{heroId}}" size="4" data-bind="value: levelBox" />-->
+    <input id="hero{{heroId}}heroLevel" class="number" type="text" tabindex="{{heroId}}" size="4" value="{{level}}" />
   </td>
+</template>
+
+<template name="skillbox">
+  <input type="checkbox" id="skill{{skillID}}" title="ha" data-bind="checked: isActive" />
 </template>
 
 <template name="player">
@@ -115,13 +122,15 @@
         <th>Artifact</th>
         <th>Bonus Type</th>
         <th class="number">Bonus Strength</th>
+        <th class="number">+Bonus/Level</th>
         <th class="number">Damage Bonus</th>
+        <th class="number">+Damage/Level</th>
         <th class="number">Upgrade Cost</th>
         <th width="1">Level</th>
       </tr>
     </thead>
     <tbody>
-      {{#each TT.ArtifactInfo}}
+      {{#each TapTitans.Artifacts}}
       <tr>
         {{> artifact}}
       </tr>
@@ -133,8 +142,10 @@
 <template name="artifact">
   <td id="{{artifactID}}name">{{name}}</td>
   <td id="{{artifactID}}bonusType">{{bonusType}}</td>
-  <td id="{{artifactID}}artifactBonus" class="number">{{asPercent bonusPerLevel}}</td>
-  <td id="{{artifactID}}DamageBonus" class="number">{{asPercent DamageBonus}}</td>
+  <td id="{{artifactID}}artifactBonus" class="number" data-bind="text: getBonus"></td>
+  <td class="number">{{asPercent bonusPerLevel}}</td>
+  <td id="{{artifactID}}DamageBonus" class="number" data-bind="text: getDamage"></td>
+  <td class="number">{{asPercent damageBoost}}</td>
   <td id="{{artifactID}}upgradeCost" class="number">{{TT.getArtifactUpgradeCost this}}</td>
-  <td class="text-nowrap"><input id="{{artifactID}}level" class="number" type="text" value="0" size="4" />{{#if maxLevel}}/{{maxLevel}}{{/if}}</td>
+  <td class="text-nowrap"><input id="{{artifactID}}level" class="number" type="text" value="0" size="4" data-bind="value: level" />{{#if maxLevel}}/{{maxLevel}}{{/if}}</td>
 </template>

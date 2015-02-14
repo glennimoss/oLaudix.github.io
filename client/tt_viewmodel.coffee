@@ -1,10 +1,19 @@
 Template.hero.rendered = ->
-  em =
-    heroLevel: 0
-    nextUpgradeCost: 0
-    currentDPS: 0
-    nextLevelDPSDiff: 0
-  for skill in this.data.skills
-    em["skill#{skill.skillID}"] = false
+  hero = @data
+  TT.vm.heroes.push(new ViewModel(this.data).extend(
+    nextLevelDpsDiff: -> TT.numberFormat(hero.getDps(hero.level + 1) - hero.getDps())
+  ).bind @)
 
-  TT.vm.push(new ViewModel(this.data).extend(em).bind @)
+Template.skillbox.rendered = ->
+  new ViewModel(
+    skill: @data
+    isActive: -> @skill().isActive
+  ).bind @
+
+Template.artifact.rendered = ->
+  artifact = @data
+  TT.vm.artifacts.push(new ViewModel(
+    getBonus: -> artifact.getBonus()
+    getDamage: -> artifact.getDamage()
+    level: -> artifact.level
+  ).bind @)
