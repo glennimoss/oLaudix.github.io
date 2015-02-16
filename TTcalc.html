@@ -47,9 +47,10 @@
         <!--<th data-field="id" data-sortable="true" data-width="1">UI</th>-->
         <th data-field="name" data-sortable="true">Name</th>
         <th width="1">Skills</th>
-        <th data-field="upgrade_cost" data-sortable="true" class="number">Upgrade Cost</th>
         <th data-field="dps" data-sortable="true" class="number">DPS</th>
+        <th data-field="upgrade_cost" data-sortable="true" class="number">Upgrade Cost</th>
         <th data-field="next_dps_inc" data-sortable="true" class="number">Next Level DPS Diff</th>
+        <th class="number">Gold/DPS</th>
         <th data-field="level" data-sortable="true" data-width="1" width="1">Level</th>
       </tr>
     </thead>
@@ -71,19 +72,17 @@
       {{> skillbox}}
     {{/each}}
   </td>
-  <!--<td id="hero{{heroId}}nextUpgradeCost" class="number" data-bind="text: getUpgradeCost"></td>-->
-  <td id="hero{{heroId}}nextUpgradeCost" class="number">{{numberFormat getUpgradeCost}}</td>
-  <!--<td id="hero{{heroId}}currentDPS" class="number" data-bind="text: getDps"></td>-->
   <td id="hero{{heroId}}currentDPS" class="number">{{numberFormat getDps}}</td>
-  <td id="hero{{heroId}}nextLevelDPSDiff" class="number" data-bind="text: nextLevelDpsDiff"></td>
+  <td id="hero{{heroId}}nextUpgradeCost" class="number">{{numberFormat getUpgradeCost}}</td>
+  <td id="hero{{heroId}}nextLevelDPSDiff" class="number">{{numberFormat getDpsDiff}}</td>
+  <td class="number">{{numberFormat goldPerDps}}</td>
   <td>
-    <!--<input id="hero{{heroId}}heroLevel" class="number" type="text" tabindex="{{heroId}}" size="4" data-bind="value: levelBox" />-->
-    <input id="hero{{heroId}}heroLevel" class="number" type="text" tabindex="{{heroId}}" size="4" value="{{level}}" />
+    <input id="hero{{heroId}}heroLevel" class="hero-level number" type="number" tabindex="{{heroId}}" min="0" value="{{level}}" />
   </td>
 </template>
 
 <template name="skillbox">
-  <input type="checkbox" id="skill{{skillID}}" title="ha" data-bind="checked: isActive" />
+  <input type="checkbox" id="skill{{skillID}}" class="skill-box" title="ha" checked="{{isActive}}" />
 </template>
 
 <template name="player">

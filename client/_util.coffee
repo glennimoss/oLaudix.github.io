@@ -34,3 +34,24 @@ helpers =
 
 for name, func of helpers
   Template.registerHelper(name, func)
+
+
+_First = 33
+_Base = 94
+
+TT.encode = (num, digits=2) ->
+  chars = []
+  while digits
+    chars.unshift(String.fromCharCode((num % _Base) + _First))
+    num = num // _Base
+    --digits
+
+  return chars.join('')
+
+TT.decode = (str, digits=2) ->
+  num = 0
+  for i in [0...Math.min(digits, str.length)]
+    num *= _Base
+    num += str.charCodeAt(i) - _First
+
+  return num

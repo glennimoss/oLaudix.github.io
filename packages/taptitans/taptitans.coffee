@@ -39,12 +39,7 @@ damageScaleDown = 0.1
 
 class Hero extends ReactiveObject
   constructor: (props) ->
-    #{@name, @cost, @heroId, @skills} = props
     props.level = 0
-    #@level = 0
-    #@level = new ReactiveVar(0)
-
-    #@skills = (new Skill(skill, @) for skill in @skills)
     props.skills = (new Skill(skill, @) for skill in props.skills)
 
     super(props)
@@ -87,10 +82,13 @@ class Hero extends ReactiveObject
     return Math.floor(num4 * (Game.allDamageFactor + @getSelfDamageBoost()) *
       Game.artifactDamageFactor)
 
-class Skill
+  getDpsDiff: (levelDelta=1) ->
+    return @getDps(@level + levelDelta) - @getDps()
+
+class Skill extends ReactiveObject
   constructor: (props, @owner) ->
-    {@name, @bonusType, @magnitude, @reqLevel, @cost, @skillID} = props
-    @isActive = false
+    props.isActive = false
+    super(props)
 
 
 ###
