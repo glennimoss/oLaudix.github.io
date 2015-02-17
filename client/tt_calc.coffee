@@ -15,11 +15,6 @@ TT.CritChance = 0.02
 TT.TapDamagePassive = 0
 TT.artifactBonusDamage = 0
 
-TT.GetHeroBaseCost = (purchaseCost, heroLevel) ->
-  if heroLevel >= (TT.heroEvolveLevel - 1)
-    purchaseCost *= TT.evolveCostMultiplier
-  return purchaseCost
-
 TT.GetEfficiency = () ->
   output = []
   text = ""
@@ -76,17 +71,6 @@ TT.GetEfficiency = () ->
       $("#output").html(text)
       break
 
-TT.GetUpgradeCostByMultiLevel = (iLevelStart, iLevelFinish, purchaseCost) ->
-  total = 0
-  for i in [iLevelStart...iLevelFinish]
-    total += TT.GetUpgradeCostByLevel(i, purchaseCost)
-  return total
-
-TT.GetSkills = () ->
-  for hero in TT.HeroInfo
-    for skill in hero.skills
-      skill.isActive = $("#skill#{skill.skillID}").is(":checked")
-
 TT.SetSkillsForEfficiency = () ->
   for hero in TT.HeroInfo
     for skill in hero.skills
@@ -127,18 +111,6 @@ TT.UpdateArtifactsStats = () ->
     artifact.currentDamageBonus = TT.totalDamageArtifactBonus(artifact.damageBonus, artifact.level)
     artifact.nextLevelDamageBonusDiff = TT.totalDamageArtifactBonus(artifact.damageBonus, artifact.level + 1) - artifact.currentDamageBonus
     TT.artifactBonusDamage += artifact.currentDamageBonus
-
-TT.getArtifactUpgradeCost = (artifact) ->
-  if artifact.level == 0
-    return TT.NextArtifactCost()
-  return Math.round(artifact.costCoEff * (artifact.level + 1)**artifact.costExpo)
-
-TT.NextArtifactCost = () ->
-  num = _.reduce TT.ArtifactInfo,
-    (n, artifact) -> n + (artifact.level > 0)
-    1
-
-  return Math.floor(num * 1.35**num)
 
 TT.totalDamageArtifactBonus = (damageBonus, level) ->
   if level > 0
@@ -325,12 +297,6 @@ TT.GetDPSByLevel = (hero, level) ->
   else
     num4 = TT.GetUpgradeCostByLevel(level - 1, hero.cost) * (TT.heroUpgradeBase**level - 1) / (TT.heroUpgradeBase - 1) * num3 * TT.dMGScaleDown
   return num4 * (1 + TT.currentPassiveThisHeroDamage(hero) + TT.StatBonusAllDamage) * (1 + TT.artifactBonusDamage)
-
-TT.IsEvolved = (iLevel) ->
-  return iLevel >= TT.heroEvolveLevel
-
-TT.GetUpgradeCostByLevel = (iLevel, purchaseCost) ->
-    return Math.ceil(TT.GetHeroBaseCost(purchaseCost, iLevel) * TT.heroUpgradeBase**iLevel * (1 + TT.Artifact.RingOfWonderousCharm.currentBonus))
 
 TT.UpdatePlayerStats = () ->
   TT.Player.currentDamage = TT.GetAttackDamageByLevel(TT.Player.heroLevel)

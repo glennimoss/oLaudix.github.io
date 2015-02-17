@@ -25,38 +25,35 @@ Meteor.startup ->
 Template.body.helpers
   makeLink: makeLink
 
+heroHelpers =
+  goldPerDps: -> @getUpgradeCost() / @getDpsDiff()
 
-Template.hero.helpers
-  goldPerDps: -> @getUpgradeCost() / @getDpsDiff(1)
+Template.hero.helpers heroHelpers
+Template.player.helpers = heroHelpers
 
-Template.hero.events
-  'input .hero-level': (event) ->
+
+levelEvents =
+  'input .level': (event) ->
     @level = event.target.valueAsNumber
+  'focus input': (event) ->
+    $(event.target).parents('tr').addClass('focus')
+  'blur input': (event) ->
+    $(event.target).parents('tr').removeClass('focus')
+
+Template.hero.events levelEvents
 
 Template.skillbox.events
   'click .skill-box': (event) ->
-    @isActive = event.target.checked
+    @setActive(event.target.checked)
 
-###
-Template.hero.rendered = ->
-  hero = @data
-  TT.vm.heroes.push(new ViewModel(this.data).extend(
-    nextLevelDpsDiff: -> TT.numberFormat(hero.getDps(hero.level + 1) - hero.getDps())
-    goldPerDps: ->
-      TT.numberFormat(hero.getUpgradeCost() / (hero.getDps(hero.level + 1) - hero.getDps()))
-  ).bind @)
+Template.artifact.helpers
+  index: -> @artifactId.substr(8)
 
-Template.skillbox.rendered = ->
-  new ViewModel(
-    skill: @data
-    isActive: -> @skill().isActive
-  ).bind @
+Template.artifact.events levelEvents
 
-Template.artifact.rendered = ->
-  artifact = @data
-  TT.vm.artifacts.push(new ViewModel(
-    getBonus: -> artifact.getBonus()
-    getDamage: -> artifact.getDamage()
-    level: -> artifact.level
-  ).bind @)
-###
+Template.player.events levelEvents
+Template.player.events
+  'input .taps': (event) ->
+    @taps = event.target.valueAsNumber
+  'input .name': (event) ->
+    @name = event.target.value

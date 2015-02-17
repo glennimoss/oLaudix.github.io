@@ -11,8 +11,12 @@
     vertical-align: middle;
   }
 
-  .hero-level {
+  input.number {
     width: 4em;
+  }
+
+  tr.focus {
+    background-color: #c9ffc5;
   }
 }
 

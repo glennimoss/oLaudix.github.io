@@ -13,6 +13,8 @@ TT.numberFormat = (number) ->
   if exp == 0
     if num % 1
       return _PrettyFmt.format(num)
+    if isNaN(num)
+      return "--"
     return num.toString()
   if exp < _Units.length
     unit = _Units[exp]
@@ -22,8 +24,7 @@ TT.numberFormat = (number) ->
     if unitCode > _WayTooBigUnit
       unit = "e" + (exp*3)
   num = num / 1000**exp
-  s = _PrettyFmt.format(num) + unit
-  return s
+  return _PrettyFmt.format(num) + unit
 
 _PctFmt = Intl.NumberFormat(undefined, {style: "percent"})
 
@@ -55,3 +56,8 @@ TT.decode = (str, digits=2) ->
     num += str.charCodeAt(i) - _First
 
   return num
+
+
+_.mixin
+  sum: (iter) ->
+    _.reduce(iter, ((n, m) -> n + m), 0)

@@ -4,297 +4,297 @@
       , maxLevel: 0
       , bonusType: "GoldBoss"
       , bonusPerLevel: 1.00
-      , damageBonus: 0.6
+      , damagePerLevel: 0.6/2
       , costFactor: 0.7
       , costExpo: 1.5
-      , artifactID: "Artifact1"
+      , artifactId: "Artifact1"
       , level: 0
       }
     , { name: "Amulet of the Valrunes"
       , maxLevel: 0
       , bonusType: "GoldMinion"
       , bonusPerLevel: 0.10
-      , damageBonus: 0.5
+      , damagePerLevel: 0.5/2
       , costFactor: 0.7
       , costExpo: 2
-      , artifactID: "Artifact2"
+      , artifactId: "Artifact2"
       , level: 0
       }
     , { name: "Dark Cloak of Life"
       , maxLevel: 25
       , bonusType: "BossLife"
       , bonusPerLevel: -0.02
-      , damageBonus: 0.3
+      , damagePerLevel: 0.3/2
       , costFactor: 0.5
       , costExpo: 2
-      , artifactID: "Artifact3"
+      , artifactId: "Artifact3"
       , level: 0
       }
     , { name: "Death Seeker"
       , maxLevel: 25
       , bonusType: "CritChance"
       , bonusPerLevel: 0.02
-      , damageBonus: 0.3
+      , damagePerLevel: 0.3/2
       , costFactor: 0.5
       , costExpo: 2
-      , artifactID: "Artifact4"
+      , artifactId: "Artifact4"
       , level: 0
       }
     , { name: "Savior Shield"
       , maxLevel: 25
       , bonusType: "BossTime"
       , bonusPerLevel: 0.10
-      , damageBonus: 0.3
+      , damagePerLevel: 0.3/2
       , costFactor: 0.5
       , costExpo: 1.7
-      , artifactID: "Artifact5"
+      , artifactId: "Artifact5"
       , level: 0
       }
     , { name: "Overseer's Lotion"
       , maxLevel: 10
       , bonusType: "SkillConstantDamageCD"
       , bonusPerLevel: -0.05
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 0.4
       , costExpo: 1.5
-      , artifactID: "Artifact6"
+      , artifactId: "Artifact6"
       , level: 0
       }
     , { name: "Sacred Scroll"
       , maxLevel: 10
       , bonusType: "SkillCriticalChanceBoostCD"
       , bonusPerLevel: -0.05
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 0.4
       , costExpo: 1.5
-      , artifactID: "Artifact7"
+      , artifactId: "Artifact7"
       , level: 0
       }
     , { name: "Hunter's Ointment"
       , maxLevel: 10
       , bonusType: "SkillHeroesAttackSpeedIncreaseCD"
       , bonusPerLevel: -0.05
-      , damageBonus: 0.7
+      , damagePerLevel: 1.2/2
       , costFactor: 0.4
       , costExpo: 1.5
-      , artifactID: "Artifact8"
+      , artifactId: "Artifact8"
       , level: 0
       }
     , { name: "Laborer's Pendant"
       , maxLevel: 10
       , bonusType: "SkillTapGoldCD"
       , bonusPerLevel: -0.05
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 0.7
       , costExpo: 1.5
-      , artifactID: "Artifact9"
+      , artifactId: "Artifact9"
       , level: 0
       }
     , { name: "Barbarian's Mettle"
       , maxLevel: 10
       , bonusType: "SkillTapDamageIncreaseCD"
       , bonusPerLevel: -0.05
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 0.4
       , costExpo: 1.5
-      , artifactID: "Artifact10"
+      , artifactId: "Artifact10"
       , level: 0
       }
     , { name: "Saintly Shield"
       , maxLevel: 10
       , bonusType: "SkillBurstDamageCD"
       , bonusPerLevel: -0.05
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 0.3
       , costExpo: 1.5
-      , artifactID: "Artifact11"
+      , artifactId: "Artifact11"
       , level: 0
       }
     , { name: "Ogre's Gauntlet"
       , maxLevel: 0
       , bonusType: "SkillConstantDamageDuration"
       , bonusPerLevel: 0.10
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 0.5
       , costExpo: 1.7
-      , artifactID: "Artifact12"
+      , artifactId: "Artifact12"
       , level: 0
       }
     , { name: "Parchment of Importance"
       , maxLevel: 0
       , bonusType: "SkillCriticalChanceBoostDuration"
       , bonusPerLevel: 0.10
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 0.5
       , costExpo: 1.7
-      , artifactID: "Artifact13"
+      , artifactId: "Artifact13"
       , level: 0
       }
     , { name: "Universal Fissure"
       , maxLevel: 0
       , bonusType: "SkillHeroesAttackSpeedIncreaseDuration"
       , bonusPerLevel: 0.10
-      , damageBonus: 0.7
+      , damagePerLevel: 1.2/2
       , costFactor: 0.5
       , costExpo: 1.7
-      , artifactID: "Artifact14"
+      , artifactId: "Artifact14"
       , level: 0
       }
     , { name: "Ring of Opulence"
       , maxLevel: 0
       , bonusType: "SKillTapGoldDuration"
       , bonusPerLevel: 0.10
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 0.7
       , costExpo: 1.7
-      , artifactID: "Artifact15"
+      , artifactId: "Artifact15"
       , level: 0
       }
     , { name: "Axe of Resolution"
       , maxLevel: 0
       , bonusType: "SkillTapDamageIncreaseDuration"
       , bonusPerLevel: 0.10
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 0.5
       , costExpo: 1.7
-      , artifactID: "Artifact16"
+      , artifactId: "Artifact16"
       , level: 0
       }
     , { name: "Hero's Thrust"
       , maxLevel: 0
       , bonusType: "CritDamageArtifact"
       , bonusPerLevel: 0.20
-      , damageBonus: 0.3
+      , damagePerLevel: 0.3/2
       , costFactor: 0.7
       , costExpo: 1.7
-      , artifactID: "Artifact17"
+      , artifactId: "Artifact17"
       , level: 0
       }
     , { name: "Crown Egg"
       , maxLevel: 0
       , bonusType: "TreasureChance"
       , bonusPerLevel: 0.20
-      , damageBonus: 0.4
+      , damagePerLevel: 0.4/2
       , costFactor: 1
       , costExpo: 1.5
-      , artifactID: "Artifact18"
+      , artifactId: "Artifact18"
       , level: 0
       }
     , { name: "Chest of Contentment"
       , maxLevel: 0
       , bonusType: "GoldTreasureArtifact"
       , bonusPerLevel: 0.20
-      , damageBonus: 0.4
+      , damagePerLevel: 0.4/2
       , costFactor: 1
       , costExpo: 1.5
-      , artifactID: "Artifact19"
+      , artifactId: "Artifact19"
       , level: 0
       }
     , { name: "Future's Fortune"
       , maxLevel: 0
       , bonusType: "GoldAll"
       , bonusPerLevel: 0.05
-      , damageBonus: 0.3
+      , damagePerLevel: 0.3/2
       , costFactor: 0.7
       , costExpo: 2
-      , artifactID: "Artifact20"
+      , artifactId: "Artifact20"
       , level: 0
       }
     , { name: "Divine Chalice"
       , maxLevel: 0
       , bonusType: "Gold10xChance"
-      , bonusPerLevel: 0.01
-      , damageBonus: 0.3
+      , bonusPerLevel: 0.005
+      , damagePerLevel: 0.3/2
       , costFactor: 0.7
       , costExpo: 1.7
-      , artifactID: "Artifact21"
+      , artifactId: "Artifact21"
       , level: 0
       }
     , { name: "Unread Aura"
       , maxLevel: 0
       , bonusType: "PrestigeRelic"
       , bonusPerLevel: 0.05
-      , damageBonus: 0.3
+      , damagePerLevel: 0.3/2
       , costFactor: 0.7
       , costExpo: 2
-      , artifactID: "Artifact22"
+      , artifactId: "Artifact22"
       , level: 0
       }
     , { name: "Warrior's Revival"
       , maxLevel: 10
       , bonusType: "ReviveTime"
       , bonusPerLevel: -0.05
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 1
       , costExpo: 2.2
-      , artifactID: "Artifact23"
+      , artifactId: "Artifact23"
       , level: 0
       }
     , { name: "Ring of Wonderous Charm"
       , maxLevel: 25
       , bonusType: "AllUpgradeCost"
       , bonusPerLevel: -0.02
-      , damageBonus: 0.3
+      , damagePerLevel: 0.3/2
       , costFactor: 0.5
       , costExpo: 1.7
-      , artifactID: "Artifact24"
+      , artifactId: "Artifact24"
       , level: 0
       }
     , { name: "Worldly Illuminator"
       , maxLevel: 5
       , bonusType: "MonstersRequiredToAdvance"
       , bonusPerLevel: -1.00
-      , damageBonus: 3
+      , damagePerLevel: 3/2
       , costFactor: 0.5
       , costExpo: 3
-      , artifactID: "Artifact25"
+      , artifactId: "Artifact25"
       , level: 0
       }
     , { name: "Tincture of the Maker"
       , maxLevel: 0
       , bonusType: "ArtifactDamageBoost"
       , bonusPerLevel: 0.05
-      , damageBonus: 0.1
+      , damagePerLevel: 0.1/2
       , costFactor: 0.6
       , costExpo: 2.5
-      , artifactID: "Artifact26"
+      , artifactId: "Artifact26"
       , level: 0
       }
     , { name: "Crafter's Elixir"
       , maxLevel: 0
       , bonusType: "GoldOnline"
       , bonusPerLevel: 0.15
-      , damageBonus: 0.4
+      , damagePerLevel: 0.4/2
       , costFactor: 0.5
       , costExpo: 1.8
-      , artifactID: "Artifact27"
+      , artifactId: "Artifact27"
       , level: 0
       }
     , { name: "Outerworldly Armor"
       , maxLevel: 10
       , bonusType: "HeroDeathChance"
       , bonusPerLevel: -0.05
-      , damageBonus: 0.7
+      , damagePerLevel: 0.7/2
       , costFactor: 1
       , costExpo: 2.2
-      , artifactID: "Artifact28"
+      , artifactId: "Artifact28"
       , level: 0
       }
     , { name: "Drunken Hammer"
       , maxLevel: 0
       , bonusType: "TapDamageArtifact"
-      , bonusPerLevel: 0.05
-      , damageBonus: 0.3
-      , costFactor: 0.5
+      , bonusPerLevel: 0.1
+      , damagePerLevel: 0.4/2
+      , costFactor: 0.6
       , costExpo: 1.7
-      , artifactID: "Artifact29"
+      , artifactId: "Artifact29"
       , level: 0
       }
     ]
   HeroInfo:
     [ { name: "Takeda, the Blade Assassin"
-      , cost: 50
       , heroId: 1
+      , cost: 50
       , skills:
         [ { skillID: 1, owner: 0, name: "Nature's Presence", bonusType: "ThisHeroDamage", magnitude: 0.5, reqLevel: 10, cost: 6.14e+02}
         , { skillID: 2, owner: 0, name: "Lightning Rage", bonusType: "ThisHeroDamage", magnitude: 1, reqLevel: 25, cost: 2.36e+03}
@@ -685,8 +685,8 @@
     ]
   Player:
     name: "Lightning Blade"
+    heroId: 0
     cost: 2
-    #heroID: 0
     skills: [] # ?
 
 @Data.Artifact =

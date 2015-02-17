@@ -16,26 +16,6 @@
         {{> artifacts}}
       </div>
     </div>
-    <button type="button" onclick="TT.UpdateTables()" class="btn btn-default">Update Tables</button>
-  </div>
-  <div>
-    <div class="panel panel-primary">
-      <div class="panel-heading">Save panel</div>
-      <div class="panel-body">
-        <textarea id="savedata"></textarea>
-        <div style="margin-top: 10px;">
-          <button type="button" onclick="TT.EfficiencyCalculations()" class="btn btn-default">Update</button>
-          <button type="button" onclick="TT.Load()" class="btn btn-primary" style="float: right;">Load</button>
-          <button type="button" onclick="TT.Save()" class="btn btn-default" style="float: right;">Save</button>
-        </div>
-      </div>
-    </div>
-  <!--<label><input type="checkbox" id="addsouls" checked="checked">Include souls gained after ascension</label>-->
-    <div class="panel panel-success">
-      <div class="panel-heading">Results: <input type="text" id="numberofpredictions" value="30">
-      </div>
-      <div id="output" class="panel-body"></div>
-    </div>
   </div>
 </template>
 
@@ -72,40 +52,48 @@
       {{> skillbox}}
     {{/each}}
   </td>
-  <td id="hero{{heroId}}currentDPS" class="number">{{numberFormat getDps}}</td>
-  <td id="hero{{heroId}}nextUpgradeCost" class="number">{{numberFormat getUpgradeCost}}</td>
-  <td id="hero{{heroId}}nextLevelDPSDiff" class="number">{{numberFormat getDpsDiff}}</td>
+  <td class="number">{{numberFormat getDps}}</td>
+  <td class="number">{{numberFormat getUpgradeCost}}</td>
+  <td class="number">{{numberFormat getDpsDiff}}</td>
   <td class="number">{{numberFormat goldPerDps}}</td>
   <td>
-    <input id="hero{{heroId}}heroLevel" class="hero-level number" type="number" tabindex="{{heroId}}" min="0" value="{{level}}" />
+    <input class="level number" type="number" tabindex="{{heroId}}" min="0" value="{{level}}" />
   </td>
 </template>
 
 <template name="skillbox">
-  <input type="checkbox" id="skill{{skillID}}" class="skill-box" title="ha" checked="{{isActive}}" />
+  <input type="checkbox" id="skill{{skillID}}" class="skill-box"
+    checked="{{isActive}}"
+    disabled="{{isLocked}}"
+    title="{{name}}
+           {{bonusType}}
+           {{asPercent magnitude}}
+           {{numberFormat getUpgradeCost}}" />
 </template>
 
 <template name="player">
-  <table id="playertbl" class="table table-striped table-condensed" data-toggle="not table">
+  <table class="table table-striped table-condensed">
     <thead>
       <tr>
         <th>Name</th>
         <th class="number">Upgrade Cost</th>
         <th class="number">DPS</th>
         <th class="number">Next Level DPS Diff</th>
+        <th class="number">Gold/DPS</th>
         <th class="number" width="1">Level</th>
         <th class="number" width="1">TPS</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        {{#with TT.Player}}
-        <td><input id="player0name" type="text" value="{{name}}" /></td>
-        <td id="player0nextUpgradeCost" class="number">{{nextUpgradeCost}}</td>
-        <td id="player0currentDPS" class="number">{{currentDPS}}</td>
-        <td id="player0nextLevelDPSDiff" class="number">{{nextLevelDPSDiff}}</td>
-        <td><input id="player0heroLevel" class="number" type="text" value="1" size="3"/></td>
-        <td><input id="player0clicks" class="number" type="text" value="5" size="2"/></td>
+        {{#with TapTitans.Player}}
+        <td><input class="name" type="text" value="{{name}}" /></td>
+        <td class="number">{{numberFormat getUpgradeCost}}</td>
+        <td class="number">{{numberFormat getDps}}</td>
+        <td class="number">{{numberFormat getDpsDiff}}</td>
+        <td class="number">{{numberFormat goldPerDps}}</td>
+        <td><input class="level number" type="number" min="1" value="{{level}}" /></td>
+        <td><input class="taps number" type="number" min="0" value="{{taps}}" /></td>
         {{/with}}
       </tr>
     </tbody>
@@ -139,12 +127,14 @@
 </template>
 
 <template name="artifact">
-  <td id="{{artifactID}}name">{{name}}</td>
-  <td id="{{artifactID}}bonusType">{{bonusType}}</td>
-  <td id="{{artifactID}}artifactBonus" class="number" data-bind="text: getBonus"></td>
+  <td>{{name}}</td>
+  <td>{{bonusType}}</td>
+  <td class="number">{{asPercent getBonus}}</td>
   <td class="number">{{asPercent bonusPerLevel}}</td>
-  <td id="{{artifactID}}DamageBonus" class="number" data-bind="text: getDamage"></td>
-  <td class="number">{{asPercent damageBoost}}</td>
-  <td id="{{artifactID}}upgradeCost" class="number">{{TT.getArtifactUpgradeCost this}}</td>
-  <td class="text-nowrap"><input id="{{artifactID}}level" class="number" type="text" value="0" size="4" data-bind="value: level" />{{#if maxLevel}}/{{maxLevel}}{{/if}}</td>
+  <td class="number">{{asPercent getDamage}}</td>
+  <td class="number">{{asPercent damagePerLevel}}</td>
+  <td class="number">{{numberFormat getUpgradeCost}}</td>
+  <td class="text-nowrap">
+    <input class="level number" type="number" tabindex="{{index}}" min="0" max="{{#if maxLevel}}{{maxLevel}}{{/if}}" value="{{level}}" />{{#if maxLevel}}/{{maxLevel}}{{/if}}
+  </td>
 </template>
