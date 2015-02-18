@@ -13,7 +13,7 @@ TT.numberFormat = (number) ->
   if exp == 0
     if num % 1
       return _PrettyFmt.format(num)
-    if isNaN(num)
+    if isNaN(num) or num == Infinity
       return "--"
     return num.toString()
   if exp < _Units.length

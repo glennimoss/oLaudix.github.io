@@ -9,21 +9,32 @@ heroInefficiency = 0.019
 heroInefficiencySlowDown = 15
 damageScaleDown = 0.1
 artifactCostFactor = 1.35
+relicsFirstStage = 75
+relicsStagesPerIncrease = 15
+relicsAllHeroesBonus = 2
 
 bossFactor = [2, 4, 6, 7, 10]
 
 
 class Artifact extends ReactiveObject
-  constructor: (props) ->
-    props.level = 0
-    super(props)
+  constructor: (data) ->
+    { @name, @maxLevel, @bonusType, @bonusPerLevel, @damagePerLevel, @costFactor,
+      @costExpo, @artifactId
+    } = data
+
+    super
+      level: 0
+
 
   getBonus: (lvl=@level) ->
     return @bonusPerLevel * lvl
 
   getDamage: (lvl=@level) ->
+    if lvl == 0
+      return 0
     # Level 1 has double the damage boost
-    return @damagePerLevel + @damagePerLevel * lvl
+    return ((@damagePerLevel + @damagePerLevel * lvl) *
+            (1 + TapTitans.getTotalBonus("ArtifactDamageBoost")))
 
   getUpgradeCost: (lvl=@level) ->
     if lvl == 0
@@ -32,19 +43,26 @@ class Artifact extends ReactiveObject
 
 
 class Hero extends ReactiveObject
-  constructor: (props) ->
-    props.level = 0
-    props.skills = (new Skill(skill, @) for skill in props.skills)
-    super(props)
+  constructor: (data) ->
+    {@name, @cost, @heroId} = data
 
-  getBaseCost: (lvl=@level) ->
-    if lvl >= (heroEvolveLevel - 1)
-      return @cost * evolveCostMultiplier
-    return @cost
+    @skills = []
+    if data.skills?.length
+      @skills.push(new Skill(data.skills[0], @))
+      prevSkill = @skills[0]
+      for skill in data.skills[1...]
+        newSkill = new Skill(skill, @, prevSkill)
+        @skills.push(newSkill)
+        prevSkill = newSkill
+
+    super
+      level: 0
 
   getUpgradeCost: (lvl=@level) ->
-    return Math.ceil(
-      @getBaseCost(lvl) * heroUpgradeBase**lvl *
+    cost = @cost
+    if lvl >= (heroEvolveLevel - 1)
+      cost *= evolveCostMultiplier
+    return Math.ceil(cost * heroUpgradeBase**lvl *
       (1 + TapTitans.getTotalBonus("AllUpgradeCost"))
     )
 
@@ -54,8 +72,13 @@ class Hero extends ReactiveObject
   isEvolved: (lvl=@level) ->
     return lvl >= heroEvolveLevel
 
+  evoLevel: (lvl=@level) ->
+    if @isEvolved(lvl)
+      return lvl - heroEvolveLevel
+    return lvl
+
   _accumulateBonuses: (bonusType) ->
-    return _.sum ((
+    return _.sum((
       if skill.isActive and skill.bonusType == bonusType
         skill.magnitude
       else 0
@@ -65,7 +88,7 @@ class Hero extends ReactiveObject
 
   getDps: (lvl=@level) ->
     if @isEvolved(lvl)
-      num3 = levelIneffiency**(lvl - heroEvolveLevel) *
+      num3 = levelIneffiency**@evoLevel(lvl) *
         (1 - (heroInefficiency * heroInefficiencySlowDown))**(@heroId + 30)
       num4 = @getUpgradeCost(lvl - 1) *
         (heroUpgradeBase**(lvl - (heroEvolveLevel - 1)) - 1) /
@@ -75,29 +98,41 @@ class Hero extends ReactiveObject
         (1 - (heroInefficiency * Math.min(@heroId, heroInefficiencySlowDown)))**@heroId
       num4 = @getUpgradeCost(lvl - 1) *
         (heroUpgradeBase**lvl - 1) / (heroUpgradeBase - 1) * num3 * damageScaleDown
-    return Math.floor(num4 * (TapTitans.allDamageFactor + @getSelfDamageBoost()) *
-      TapTitans.artifactDamageFactor)
+    return Math.floor(num4 *
+      (TapTitans.getTotalBonus("AllDamage") + @getSelfDamageBoost()) *
+      TapTitans.getTotalBonus("ArtifactAllDamage"))
 
   getDpsDiff: (levelDelta=1) ->
     return @getDps(@level + levelDelta) - @getDps()
 
 
 class Skill extends ReactiveObject
-  constructor: (props, owner) ->
-    props._isActive = false
-    props.owner = owner
-    super(props)
+  constructor: (data, @owner, @prevSkill=null) ->
+    @nextSkill = null
+    {@name, @bonusType, @magnitude, @reqLevel, @cost, @skillId} = data
+    @prevSkill?.nextSkill = @
+
+    super
+      _isActive: null
+
+  id: -> "#{@owner.name}: #{@name}"
 
   isActive: ->
-    if @owner.level > @reqLevel
-      return true
     if @owner.level < @reqLevel
       return false
-    return @_isActive
+    if @_isActive?
+      return @_isActive
+    return not @prevSkill? or @prevSkill.isActive()
 
-  setActive: (val) -> @_isActive = val
-
-  isLocked: -> @owner.level != @reqLevel
+  setActive: (active) ->
+    console.log("#{@id()} - setActive(", active, ")")
+    if active
+      if @prevSkill? and not @prevSkill.isActive()
+        @prevSkill?.setActive(true)
+    else
+      if @nextSkill?.isActive()
+        @nextSkill?.setActive(false)
+    @_isActive = active
 
   getUpgradeCost: ->
     num = @owner.getTotalUpgradeCost(@reqLevel)
@@ -110,14 +145,29 @@ class Skill extends ReactiveObject
     return num + num2
 
   getBonus: ->
-    return @magnitude
+    if @isActive()
+      return @magnitude
+    return 0
 
 
 class Player extends Hero
-  constructor: (props) ->
-    props.taps = 5
-    super(props)
+  constructor: (data) ->
+    super(data)
+    @defineProperty('taps', 5)
     @level = 1
+
+  getTapDamage: (lvl=@level) ->
+    return (
+      (
+        (
+          lvl * 1.05 ** lvl * (1 + TapTitans.getTotalBonus("AllDamage"))
+        )
+        + TapTitans.getTotalBonus("TapDamageFromDPS") * TapTitans.getTotalHeroDps()
+      ) * (1 + TapTitans.getTotalBonus("TapDamagePassive")
+      ) * (1 + TapTitans.getTotalBonus("ArtifactAllDamage")
+      ) * (1 + TapTitans.getTotalBonus("TapDamageArtifact")
+      )
+    )
 
   ###
   getDps: (lvl=@level) ->
@@ -142,15 +192,13 @@ TT.artifactBonusDamage = 0
 
 class Game extends ReactiveObject
   constructor: ->
-    props =
-      allDamageFactor: 1
-      artifactDamageFactor: 1
+    super
       stage: 1
-    super(props)
 
-    @Player =  new Player(Data.Player)
-    @Artifacts = (new Artifact(artifact) for artifact in Data.ArtifactInfo)
-    @Heroes = (new Hero(hero) for hero in Data.HeroInfo)
+
+    @Player =  new Player(share.Data.Player)
+    @Artifacts = (new Artifact(artifact) for artifact in share.Data.ArtifactInfo)
+    @Heroes = (new Hero(hero) for hero in share.Data.HeroInfo)
 
     @Artifact =
       DarkCloakOfLife: @Artifacts[2]
@@ -166,14 +214,20 @@ class Game extends ReactiveObject
       for skill in hero.skills
         items.push(skill)
 
-    @_bonus = {}
+    @_bonus =
+      ArtifactAllDamage: (
+        (do (artifact) -> -> artifact.getDamage()) for artifact in @Artifacts
+      )
     for item in items
       if item.bonusType not of @_bonus
         @_bonus[item.bonusType] = []
-      @_bonus[item.bonusType].push(item)
+      @_bonus[item.bonusType].push(do (item) -> -> item.getBonus())
 
   getTotalBonus: (type) ->
-    return _.sum(item.getBonus() for item in @_bonus[type])
+    return _.sum(bonus() for bonus in @_bonus[type])
+
+  getTotalHeroDps: ->
+    return _.sum(hero.getDps() for hero in @Heroes)
 
   nextArtifactCost: ->
     num = 1 + _.sum ((artifact.level > 0) for artifact in @Artifacts)
@@ -185,6 +239,21 @@ class Game extends ReactiveObject
   getBossHealth: (stage=@stage) ->
     return @getMonsterHealth(stage) * bossFactor[(stage-1)%5] *
       (1 + @getTotalBonus("BossLife"))
+
+  getTotalHeroLevels: () ->
+    return _.sum(hero.level for hero in @Heroes)
+
+  getRelicsGained: (allHeroesAlive=true, stage=@stage) ->
+    bonus = 1 + @getTotalBonus("PrestigeRelic")
+    fromHeroes = (@getTotalHeroLevels() * bonus)//1000
+    fromStages = Math.floor(
+      (Math.max(0, stage - relicsFirstStage)//relicsStagesPerIncrease)**1.7 * bonus)
+    relics = fromHeroes + fromStages
+    if allHeroesAlive
+      relics *= relicsAllHeroesBonus
+    return relics
+
+
 
 
 TapTitans = new Game()
