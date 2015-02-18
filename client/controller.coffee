@@ -1,11 +1,11 @@
 makeLink = ->
   parts = ["#"]
   for hero in TapTitans.Heroes
-    parts.push(TT.encode(hero.level))
-  parts.push(TT.encode(TapTitans.Player.level))
-  parts.push(TT.encode(TapTitans.Player.taps))
+    parts.push(Util.encode(hero.level))
+  parts.push(Util.encode(TapTitans.Player.level))
+  parts.push(Util.encode(TapTitans.Player.taps))
   for artifact in TapTitans.Artifacts
-    parts.push(TT.encode(artifact.level))
+    parts.push(Util.encode(artifact.level))
 
   # Strip off trailing zeroes, but only remove them in groups of two
   return parts.join('').replace(/(!!)+$/, '')
@@ -13,14 +13,14 @@ makeLink = ->
 readLink = ->
   data = location.hash.substr(1) # Drop the leading #
   for hero in TapTitans.Heroes
-    hero.level = TT.decode(data)
+    hero.level = Util.decode(data)
     data = data.substr(2)
-  TapTitans.Player.level = TT.decode(data)
+  TapTitans.Player.level = Util.decode(data)
   data = data.substr(2)
-  TapTitans.Player.taps = TT.decode(data)
+  TapTitans.Player.taps = Util.decode(data)
   data = data.substr(2)
   for artifact in TapTitans.Artifacts
-    artifact.level = TT.decode(data)
+    artifact.level = Util.decode(data)
     data = data.substr(2)
 
 Meteor.startup ->
@@ -73,3 +73,12 @@ Template.player.events levelEvents
 Template.player.events
   'input .taps': valGrabber('taps', 0)
   'input .name': valGrabber('name', 'Lightning Blade', 'value')
+
+
+helpers =
+  TapTitans: TapTitans
+  asPercent: Util.formatPercent
+  numberFormat: Util.formatTTNumber
+
+for name, thing of helpers
+  Template.registerHelper(name, thing)

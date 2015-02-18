@@ -1,3 +1,5 @@
+TT = {}
+
 TT.heroEvolveLevel = 1001
 TT.levelIneffiency = 0.904
 TT.heroInefficiency = 0.019
@@ -376,3 +378,27 @@ TT.EfficiencyCalculations = () ->
   TT.GetEfficiency()
 
 #$(TT.UpdateTables)
+
+# From stuff.js
+GetStageBaseHP = (stage) ->
+  return 18.5 * 1.57**Math.min(stage, 156) * 1.17**Math.max((stage - 156),0)
+
+GetStageBaseGold = (stage) ->
+    num2 = GetStageBaseHP(stage) * (0.02 + 0.00045 * Math.min(stage, 150))
+    #return (num2 * Math.Ceiling((double) (1.0 + PlayerModel.instance.GetStatBonus(BonusType.GoldAll))));
+    return num2
+
+getHeroReviveTime = (stage) ->
+  if stage <= 50
+    return "hero can't die"
+
+  num = Math.ceil((stage - 50) / 10)
+  num2 = Math.min(num * 3600, 86400) * (1 + TapTitans.getTotalBonus("ReviveTime"))
+
+  return formatTime(num2)
+
+formatTime = (seconds) ->
+  h = seconds // 3600
+  m = (seconds % 3600) // 60
+  s = seconds % 60
+  return ((h > 0 ? h + ":" : "") + (m > 0 ? (h > 0 && m < 10 ? "0" : "") + m + ":" : "00:") + (s < 10 ? "0" : "") + s)
