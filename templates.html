@@ -55,7 +55,9 @@
         {{> hero}}
       {{/each}}
       <tr>
-        <th colspan="6" class="text-right">Total Hero Levels:</th>
+        <th colspan="2" class="text-right">Total Hero DPS:</th>
+        <td class="number">{{numberFormat TapTitans.getTotalHeroDps}}</td>
+        <th colspan="3" class="text-right">Total Hero Levels:</th>
         <td class="number">{{TapTitans.getTotalHeroLevels}}</td>
       </tr>
     </tbody>
@@ -86,9 +88,10 @@
     checked="{{isActive}}"
     disabled="{{isLocked}}"
     title="{{name}}
-           {{bonusType}}
-           {{asPercent magnitude}}
-           {{numberFormat getUpgradeCost}}" />
+           {{bonusDescription bonusType magnitude}}
+           Skill cost: {{numberFormat getUpgradeCost}}
+           {{#unless isActive}}Total cost to obtain: {{numberFormat getTotalUpgradeCost}}{{/unless}}
+           " />
 </template>
 
 <template name="player">
@@ -125,7 +128,7 @@
 </template>
 
 <template name="artifacts">
-  <table id="artifacttable" class="table table-striped">
+  <table id="artifacttable" class="table table-striped table-condensed">
     <thead>
       <tr>
         <th>Artifact</th>
@@ -154,7 +157,7 @@
 <template name="artifact">
   <tr>
     <td>{{name}}</td>
-    <td>{{bonusType}}</td>
+    <td>{{{bonusDescription bonusType}}}</td>
     <td class="number">{{asPercent getBonus}}</td>
     <td class="number">{{asPercent bonusPerLevel}}</td>
     <td class="number">{{asPercent getDamage}}</td>

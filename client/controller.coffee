@@ -1,3 +1,47 @@
+_bonusDescriptions =
+  AllBossDamage: "Increase all damage on Boss"
+  AllDamage: "Increase ALL damage"
+  AllUpgradeCost: "TODO: AllUpgradeCost"
+  ArtifactDamageBoost: "Increase all DPS"
+  BossLife: "TODO: BossLife"
+  BossTime: "TODO: BossTime"
+  CritChance: "Increase critical chance"
+  CritDamageArtifact: "Increase critical damage"
+  CritDamagePassive: "Increase critical damage"
+  Gold10xChance: "Increase chance for 10x gold"
+  GoldAll: "Increase gold droppped amount"
+  GoldBoss: "Increase gold from Bosses"
+  GoldMinion: "TODO: GoldMinion"
+  GoldOnline: "Increase gold while playing"
+  GoldTreasureArtifact: "Increase gold treasure box chance<br><small>(Increase gold from Chesterson)</small>"
+  GoldTreasurePassive: "Increase treasure chest gold amount"
+  HeroDeathChance: "TODO: HeroDeathChance"
+  MonstersRequiredToAdvance: "Decrease monsters per stage"
+  PrestigeRelic: "Increase relics from Prestige"
+  ReviveTime: "TODO: ReviveTime"
+  SkillTapGoldDuration: "TODO: SkillTapGoldDuration"
+  SkillBurstDamageCD: "Decrease Heavenly Strike cooldown"
+  SkillConstantDamageCD: "Decrease Shadow Clone cooldown"
+  SkillConstantDamageDuration: "Increase Shadow Clone duration"
+  SkillCriticalChanceBoostCD: "TODO: SkillCriticalChanceBoostCD"
+  SkillCriticalChanceBoostDuration: "TODO: SkillCriticalChanceBoostDuration"
+  SkillHeroesAttackSpeedIncreaseCD: "TODO: SkillHeroesAttackSpeedIncreaseCD"
+  SkillHeroesAttackSpeedIncreaseDuration: "TODO: SkillHeroesAttackSpeedIncreaseDuration"
+  SkillTapDamageIncreaseCD: "Decrease Berserker Rage cooldown"
+  SkillTapDamageIncreaseDuration: "TODO: SkillTapDamageIncreaseDuration"
+  SkillTapGoldCD: "TODO: SkillTapGoldCD"
+  TapDamageArtifact: "Increase tap damage"
+  TapDamageFromDPS: "Increase tap damage by %s of total DPS"
+  TapDamagePassive: "Increase tap damage"
+  ThisHeroDamage: "Increase this hero's damage"
+  TreasureChance: "Increase treasure box chance<br><small>(Increase chance of Chesterson)</small>"
+
+_fmtBonus = (fmt, val) ->
+  if val? and fmt?.indexOf("%s") == -1
+    fmt += " by %s"
+  return sprintf(fmt, val)
+
+
 makeLink = ->
   parts = ["#"]
   for hero in TapTitans.Heroes
@@ -56,7 +100,7 @@ levelEvents =
 Template.hero.events levelEvents
 
 Template.skillbox.helpers
-  isLocked: -> @owner.level < @reqLevel
+  isLocked: -> @owner.evoLevel() < @reqLevel
 Template.skillbox.events
   'click .skill-box': (event) ->
     @setActive(event.target.checked)
@@ -79,6 +123,12 @@ helpers =
   TapTitans: TapTitans
   asPercent: Util.formatPercent
   numberFormat: Util.formatTTNumber
+  bonusDescription: (bonusType, magnitude=null) ->
+    if typeof magnitude == "number"
+      magnitude = Util.formatPercent(magnitude, false)
+    else
+      magnitude = null
+    _fmtBonus(_bonusDescriptions[bonusType], magnitude)
 
 for name, thing of helpers
   Template.registerHelper(name, thing)

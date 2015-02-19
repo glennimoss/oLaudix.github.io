@@ -30,8 +30,8 @@ _PrettyFmt = Intl.NumberFormat(undefined, {minimumFractionDigits: 2, maximumFrac
 
 _PctFmt = Intl.NumberFormat(undefined, {style: "percent"})
 
-@Util.formatPercent = (num) ->
-  (if num > 0 then '+' else '') + _PctFmt.format(num)
+@Util.formatPercent = (num, plus=true) ->
+  (if plus and num > 0 then '+' else '') + _PctFmt.format(num)
 
 _First = 33
 _Base = 94

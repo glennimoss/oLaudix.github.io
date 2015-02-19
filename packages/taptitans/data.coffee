@@ -142,7 +142,7 @@ share.Data =
       }
     , { name: "Ring of Opulence"
       , maxLevel: 0
-      , bonusType: "SKillTapGoldDuration"
+      , bonusType: "SkillTapGoldDuration"
       , bonusPerLevel: 0.10
       , damagePerLevel: 0.7/2
       , costFactor: 0.7
