@@ -29,7 +29,7 @@ _bonusDescriptions =
   SkillHeroesAttackSpeedIncreaseDuration: "TODO: SkillHeroesAttackSpeedIncreaseDuration"
   SkillTapDamageIncreaseCD: "Decrease Berserker Rage cooldown"
   SkillTapDamageIncreaseDuration: "TODO: SkillTapDamageIncreaseDuration"
-  SkillTapGoldCD: "TODO: SkillTapGoldCD"
+  SkillTapGoldCD: "Decrease Hand of Midas cooldown"
   TapDamageArtifact: "Increase tap damage"
   TapDamageFromDPS: "Increase tap damage by %s of total DPS"
   TapDamagePassive: "Increase tap damage"

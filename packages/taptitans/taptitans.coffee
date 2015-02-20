@@ -3,15 +3,27 @@ TapTitans = {}
 # Constants
 heroEvolveLevel = 1001
 evolveCostMultiplier = 10
-heroUpgradeBase = 1.075
-levelIneffiency = 0.904
-heroInefficiency = 0.019
-heroInefficiencySlowDown = 15
-damageScaleDown = 0.1
+#heroUpgradeBase = 1.075
+#levelIneffiency = 0.904
+#heroInefficiency = 0.019
+#heroInefficiencySlowDown = 15
+#damageScaleDown = 0.1
+#damageScaleDown = 0.096428
 artifactCostFactor = 1.35
 relicsFirstStage = 75
 relicsStagesPerIncrease = 15
 relicsAllHeroesBonus = 2
+
+# True values?
+# heroUpgradeBase = 1.0750000476837158
+# playerUpgradeBase = 1.0740000009536743
+# levelIneffiency = 0.90399998426437378
+# heroInefficiency = 0.018999999389052391
+# dMGScaleDown = 0.10000000149011612
+# heroInefficiencySlowDown = 15.
+# heroTransformationAdjustment = 200
+# tapDamageBase = 1.0499999523162842
+
 
 bossFactor = [2, 4, 6, 7, 10]
 
@@ -39,6 +51,8 @@ class Artifact extends ReactiveObject
   getUpgradeCost: (lvl=@level) ->
     if lvl == 0
       return TapTitans.nextArtifactCost()
+    if lvl == @maxLevel
+      return null
     return Math.round(@costFactor * (lvl + 1)**@costExpo)
 
 
@@ -62,7 +76,7 @@ class Hero extends ReactiveObject
     cost = @cost
     if lvl >= (heroEvolveLevel - 1)
       cost *= evolveCostMultiplier
-    return Math.ceil(cost * heroUpgradeBase**lvl *
+    return Math.ceil(cost * TapTitans.heroUpgradeBase**lvl *
       (1 + TapTitans.getTotalBonus("AllUpgradeCost"))
     )
 
@@ -89,27 +103,39 @@ class Hero extends ReactiveObject
 
   getSelfDamageBoost: -> @_accumulateBonuses("ThisHeroDamage")
 
-  getDps: (lvl=@level) ->
+  getScaleFactor: (expectedDps, lvl=@level) ->
+    dps = @cost
+    dps *= TapTitans.heroUpgradeBase**(lvl - 1)
+    dps *= TapTitans.heroUpgradeBase**@evoLevel(lvl) - 1
+    dps /= TapTitans.heroUpgradeBase - 1
+    slowdown = Math.min(@heroId, TapTitans.heroInefficiencySlowDown)
+    evoBonus = 0
     if @isEvolved(lvl)
-      num4 = @cost * 10 * 1.075**(lvl-1) * (1.075**(lvl - 1000)  - 1) / 0.075 * (0.904**(lvl - 1001) * (1 - (0.019 *              15))**@heroId + 30) * 0.1
-      #num3 = levelIneffiency**@evoLevel(lvl) *
-        #(1 - (heroInefficiency * heroInefficiencySlowDown))**(@heroId + 30)
-      #num4 = @getUpgradeCost(lvl - 1) *
-        #(heroUpgradeBase**(lvl - (heroEvolveLevel - 1)) - 1) /
-          #(heroUpgradeBase - 1) * num3 * damageScaleDown
-    else
-      num3 = levelIneffiency**(lvl - 1) *
-        (1 - (heroInefficiency * Math.min(@heroId, heroInefficiencySlowDown)))**@heroId
-      num4 = @getUpgradeCost(lvl - 1) *
-        (heroUpgradeBase**lvl - 1) / (heroUpgradeBase - 1) * num3 * damageScaleDown
-    return Math.floor(num4 *
-      (1 + TapTitans.getTotalBonus("AllDamage") + @getSelfDamageBoost()) *
-      (1 + TapTitans.getTotalBonus("ArtifactAllDamage"))
-    )
-    # or
-    #(((HeroBaseCost       * 1.075**(level-1) * (1.075**level          - 1)) / 0.075 * (0.904**(level - 1)    * (1 - (0.019 * Min(heroID, 15)))**heroID     )) * 0.1) * (1 + hero damage from skills + all damage from skills) * (1 + damage from artifacts)
-    # For evolved:
-    #(((HeroBaseCost * 10 * 1.075**(level-1) * (1.075**(level - 1000)  - 1)) / 0.075 * (0.904**(level - 1001) * (1 - (0.019 *              15))**heroID + 30)) * 0.1) * (1 + hero damage from skills + all damage from skills) * (1 + damage from artifacts)
+      dps *= 10
+      slowdown = TapTitans.heroInefficiencySlowDown
+      evoBonus = 30
+    dps *= TapTitans.levelIneffiency**(@evoLevel(lvl) - 1) * (1 - TapTitans.heroInefficiency * slowdown)**@heroId + evoBonus
+    dps *= 1 + TapTitans.getTotalBonus("AllDamage") + @getSelfDamageBoost()
+    dps *= 1 + TapTitans.getTotalBonus("ArtifactAllDamage")
+
+    return expectedDps / dps
+
+  getDps: (lvl=@level) ->
+    dps = @cost
+    dps *= TapTitans.heroUpgradeBase**(lvl - 1)
+    dps *= TapTitans.heroUpgradeBase**@evoLevel(lvl) - 1
+    dps /= TapTitans.heroUpgradeBase - 1
+    slowdown = Math.min(@heroId, TapTitans.heroInefficiencySlowDown)
+    evoBonus = 0
+    if @isEvolved(lvl)
+      dps *= 10
+      slowdown = TapTitans.heroInefficiencySlowDown
+      evoBonus = 30
+    dps *= TapTitans.levelIneffiency**(@evoLevel(lvl) - 1) * (1 - TapTitans.heroInefficiency * slowdown)**@heroId + evoBonus
+    dps *= TapTitans.damageScaleDown
+    dps *= 1 + TapTitans.getTotalBonus("AllDamage") + @getSelfDamageBoost()
+    dps *= 1 + TapTitans.getTotalBonus("ArtifactAllDamage")
+    return dps
 
   getDpsDiff: (levelDelta=1) ->
     return @getDps(@level + levelDelta) - @getDps()
@@ -167,12 +193,12 @@ class Player extends Hero
     @level = 1
 
   getTapDamage: (lvl=@level) ->
-    return (
+    return Math.round( # Maybe floor? need more evidence
       (
         (
           lvl * 1.05 ** lvl * (1 + TapTitans.getTotalBonus("AllDamage"))
-        )
-        + TapTitans.getTotalBonus("TapDamageFromDPS") * TapTitans.getTotalHeroDps()
+        ) +
+        TapTitans.getTotalBonus("TapDamageFromDPS") * TapTitans.getTotalHeroDps()
       ) * (1 + TapTitans.getTotalBonus("TapDamagePassive")
       ) * (1 + TapTitans.getTotalBonus("ArtifactAllDamage")
       ) * (1 + TapTitans.getTotalBonus("TapDamageArtifact")
@@ -204,6 +230,12 @@ class Game extends ReactiveObject
   constructor: ->
     super
       stage: 1
+      # Constant factors
+      damageScaleDown: 0.10000000149011612
+      heroInefficiency: 0.018999999389052391
+      heroInefficiencySlowDown: 15
+      heroUpgradeBase: 1.0750000476837158
+      levelIneffiency: 0.90399998426437378
 
 
     @Player =  new Player(share.Data.Player)
